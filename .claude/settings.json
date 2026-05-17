@@ -1,0 +1,27 @@
+{
+  "$schema": "https://code.claude.com/schemas/settings.json",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/permissions-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "if": "Write(.claude/specs/tasks/**)",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/pre-spec-validate.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

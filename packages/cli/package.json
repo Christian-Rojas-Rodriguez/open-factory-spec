@@ -1,0 +1,40 @@
+{
+  "name": "@open-factory/cli",
+  "version": "0.1.0",
+  "description": "Scaffold an open-factory-spec (POA + SDD spec-as-source) into your project. `npx @open-factory/cli init` drops a ready-to-use .claude/ and CLAUDE.md.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "open-factory": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/sync-templates.mjs && tsc && node scripts/finalize-bin.mjs",
+    "dev": "node --experimental-strip-types src/index.ts",
+    "test": "node --test --experimental-strip-types --test-reporter=spec tests/**/*.test.ts",
+    "pretest": "node scripts/sync-templates.mjs && tsc && node scripts/finalize-bin.mjs",
+    "sync": "node scripts/sync-templates.mjs",
+    "prepack": "node scripts/sync-templates.mjs && tsc && node scripts/finalize-bin.mjs"
+  },
+  "keywords": [
+    "claude-code",
+    "spec-driven-development",
+    "agent-factory",
+    "poa",
+    "scaffold"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  }
+}
