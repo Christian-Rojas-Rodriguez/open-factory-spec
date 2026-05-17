@@ -1,0 +1,20 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# Local pnpm bootstrap (download once via .bin/pnpm or use corepack)
+.bin/
+
+# pnpm
+.pnpm-store/
+
+# editor
+.vscode/
+.idea/
+
+# Local agent memory (per constitution §6 — `local` scope)
+.claude/agent-memory-local/
+
+# Generated — produced by `pnpm sync` / `pnpm build`, not hand-edited
+packages/cli/templates/

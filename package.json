@@ -1,0 +1,26 @@
+{
+  "name": "open-factory-spec",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for the open-factory-spec — a POA + SDD spec-as-source agent factory for Claude Code",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test && pnpm test:factory",
+    "test:factory": "node --test --test-reporter=spec 'tests/unit/*.test.mjs' 'tests/integration/*.test.mjs' 'tests/acceptance/*.test.mjs'",
+    "sync": "node packages/cli/scripts/sync-templates.mjs",
+    "cli": "node packages/cli/dist/index.js",
+    "git-hooks:install": "mkdir -p .git/hooks && ln -sf ../../.claude/hooks/pre-commit-contract.sh .git/hooks/pre-commit && ln -sf ../../.claude/hooks/post-merge-bump.sh .git/hooks/post-merge && echo 'git hooks linked'"
+  },
+  "keywords": [
+    "claude-code",
+    "spec-driven-development",
+    "agent-factory",
+    "poa"
+  ]
+}
