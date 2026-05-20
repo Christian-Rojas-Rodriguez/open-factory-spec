@@ -2,10 +2,9 @@
 
 <br />
 
-<h1>👾 Open Factory Spec</h1>
+<img src="assets/banner.png" alt="Open Factory Spec" width="100%" />
 
-<p><strong>An agent factory for Claude Code.</strong><br />
-Scaffold a self-consistent <code>.claude/</code> directory — 11 agents, 8 skills, and a 5-level contract system — with one command.</p>
+<br /><br />
 
 [![npm](https://img.shields.io/npm/v/@open-factory/cli?style=flat-square&label=npm)](https://www.npmjs.com/package/@open-factory/cli)
 [![License](https://img.shields.io/github/license/Christian-Rojas-Rodriguez/open-factory-spec?style=flat-square)](LICENSE)
