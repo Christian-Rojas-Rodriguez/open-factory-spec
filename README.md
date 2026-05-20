@@ -1,85 +1,206 @@
-# open-factory-spec
+<div align="center">
 
-> A POA (Programación Orientada a Agentes) + SDD (Spec-Driven Development, spec-as-source) **agent factory for Claude Code**, distributed as a pnpm CLI.
+<br />
 
-## What this is
+<h1>👾 Open Factory Spec</h1>
 
-A blueprint and a CLI to scaffold a self-consistent `.claude/` directory into any project, with:
+<p><strong>An agent factory for Claude Code.</strong><br />
+Scaffold a self-consistent <code>.claude/</code> directory — 11 agents, 8 skills, and a 5-level contract system — with one command.</p>
 
-- 11 base agents organized in layers (Bootstrap / Specify / Plan / Implement / Validate + transversal).
-- 8 skills, 4 normative hooks, 6 commands.
-- A 5-level contract (Bootstrap → Constitution → Workflow → Task → Spec).
-- Three-level testing (unit / integration / acceptance) authored by the QA agent.
-- Hard invariants enforced by hooks and the Auditor agent.
+[![npm](https://img.shields.io/npm/v/@open-factory/cli?style=flat-square&label=npm)](https://www.npmjs.com/package/@open-factory/cli)
+[![License](https://img.shields.io/github/license/Christian-Rojas-Rodriguez/open-factory-spec?style=flat-square)](LICENSE)
+[![Node](https://img.shields.io/badge/node-%E2%89%A520-brightgreen?style=flat-square)](https://nodejs.org)
 
-Read the full blueprint in [`.claude/specs/SPEC.md`](.claude/specs/SPEC.md).
+<br />
 
-## Quick start (consumer)
+</div>
+
+---
+
+Our philosophy:
+
+```text
+→ specs before code, always
+→ agents write code, humans approve
+→ every diff needs a spec diff
+→ composition over inheritance
+→ least privilege by default
+```
+
+---
+
+## See it in action
+
+```text
+You: /task-run 0001
+
+[tl]         Orchestrating task 0001 end-to-end…
+[researcher] Scanning codebase + domain context…
+             ✔ context ready
+[curator]    Polishing What / Why / How…
+[specter]    Writing spec → .claude/specs/tasks/0001-…
+             ✔ spec v0.1.0 materialized
+[qa]         Linting spec · Authoring test suite…
+             ✔ unit / integration / acceptance — all failing ✓
+[coder]      Implementing until suite passes…
+[reviewer]   Checking diff against Spec scope…
+             ✔ diff in scope · no drift detected
+[tester]     Running test suite…
+             ✔ 12/12 passed
+[auditor]    Validating Spec ↔ Code contract…
+             ✔ contract OK · Spec.version bumped 0.1.0 → 0.2.0
+[pr]         Opening pull request…
+✔ PR #42 opened · merge ready
+```
+
+---
+
+## Quick Start
+
+**Requires Node ≥ 20.**
+
+In your target project:
 
 ```bash
-# in your target project
 npx @open-factory/cli init
 ```
 
-That drops a ready-to-use `.claude/` and `CLAUDE.md` in the current directory.
+That drops a ready-to-use `.claude/` and `CLAUDE.md` into the current directory.  
+Open Claude Code in the same directory and start building.
 
-Then open Claude Code in the same directory and start working.
+```bash
+# then inside Claude Code:
+/factory-init "your project description"
+```
+
+---
+
+## What you get
+
+| | |
+|---|---|
+| **11 agents** | Bootstrap · Specify · Plan · Implement · Validate + 2 transversals |
+| **8 skills** | `research-topic` · `plan-workflow` · `propose-agents` · `polish-idea` · `write-spec` · `spec-lint` · `author-tests` · `verify-contract` |
+| **4 hooks** | `permissions-guard` · `pre-spec-validate` · `pre-commit-contract` · `post-merge-bump` |
+| **6 commands** | `/factory-init` · `/workflow-review` · `/task-run` · `/agent-new` · `/spec-new` · `/spec-bump` |
+| **5-level contract** | Bootstrap → Constitution → Workflow → Task → Spec |
+
+---
+
+## How it works
+
+Open Factory implements two disciplines in one system:
+
+**SDD — Spec-Driven Development**  
+The spec is the only artifact humans edit. Code is entirely generated from the spec. Every diff requires a spec diff. ([arxiv:2602.00180](https://arxiv.org/abs/2602.00180))
+
+**POA — Agent-Oriented Programming**  
+Every component (Agent, Skill, Command, Hook) is a first-class object with `name`, `permissions` (minimal), and `objective`. Composition over inheritance. Least privilege by default.
+
+### 3 hard invariants
+
+```text
+1. Humans edit specs and approve PRs. Agents write the code.
+2. Every code diff requires a corresponding Spec diff.
+3. Auditor + pre-commit-contract + QA tests enforce Spec↔Code equivalence.
+```
+
+### 5 derived invariants
+
+```text
+Workflow ⇒ Components    — no component exists without Workflow declaration
+Spec ⇒ Code diff         — every touched path must be in scope of an active Spec
+Spec ⇒ Tests             — every acceptance criterion must have a test
+POAObject.permissions = minimal
+Spec.version monotonic   — only the Auditor bumps, only at merge
+```
+
+---
+
+## Agents
+
+| Agent | Layer | Color | Objective |
+|---|---|---|---|
+| `planner` | Bootstrap | 🟠 orange | Define Workflow, granularity, Tasks |
+| `curator` | Specify | 🔵 blue | Polish What/Why/How per Task |
+| `specter` | Specify | 🔵 blue | Materialize versioned Spec to disk |
+| `qa` | Plan | 🟣 purple | Lint Spec · Author 3-level failing tests |
+| `coder` | Implement | 🟢 green | Implement until QA suite passes |
+| `reviewer` | Implement | 🟢 green | Review diff against Spec |
+| `tester` | Validate | 🔴 red | Run test suite · Report results |
+| `pr` | Validate | 🔴 red | Open Pull Request |
+| `auditor` | Validate | 🔴 red | Validate Spec↔Code · Bump version |
+| `researcher` | Transversal | 🩵 cyan | Research domain/stack/codebase |
+| `tl` | Transversal | 🩷 pink | Orchestrate all use cases end-to-end |
+
+---
 
 ## Repo layout
 
 ```
 open-factory-spec/
-├── .claude/                    # the factory itself (dogfooded; source of truth for templates)
-├── CLAUDE.md                   # project memory loaded by Claude Code
-├── package.json                # pnpm workspace root
-├── pnpm-workspace.yaml
-├── tsconfig.base.json
+├── .claude/                    ← the factory itself (source of truth for templates)
+│   ├── agents/                 ← 11 agent definitions
+│   ├── skills/                 ← 8 skill definitions + scripts
+│   ├── commands/               ← 6 command definitions
+│   ├── hooks/                  ← 4 hook scripts
+│   ├── specs/                  ← constitution · workflow · tasks · diagrams
+│   └── settings.json           ← hook registry
+├── CLAUDE.md                   ← project memory loaded by Claude Code
 └── packages/
-    └── cli/                    # @open-factory/cli
-        ├── package.json
+    └── cli/                    ← @open-factory/cli (zero runtime deps)
         ├── src/
-        ├── scripts/
-        │   └── sync-templates.mjs   # copies .claude/ + CLAUDE.md → packages/cli/templates/
-        ├── templates/          # generated snapshot shipped with the package
-        └── tests/
+        ├── scripts/sync-templates.mjs
+        └── templates/          ← synced snapshot of .claude/ + CLAUDE.md
 ```
 
-The `.claude/` directory at the repo root IS the template. The CLI ships a synced snapshot in `packages/cli/templates/`. No editable duplication.
+> The `.claude/` directory at the root **is** the template. The CLI ships a synced snapshot in `packages/cli/templates/`. One source of truth, zero duplication.
+
+---
 
 ## Development
 
-Requires Node ≥ 20 and pnpm. If you don't have pnpm:
-
 ```bash
-corepack enable    # bundled with Node 16+, activates pnpm/yarn shims
-```
-
-Then:
-
-```bash
+corepack enable          # activate pnpm if needed
 pnpm install
-pnpm -r build              # syncs templates + compiles CLI
-pnpm -r test               # runs CLI tests against the synced templates
-node packages/cli/dist/index.js init ./tmp-test    # smoke-test init
+pnpm -r build            # sync templates + compile CLI
+pnpm -r test             # run tests against synced templates
+node packages/cli/dist/index.js init ./tmp-test   # smoke-test
 ```
 
-### Templates dogfooding
-
-When you edit anything in `.claude/` or `CLAUDE.md`, re-sync the templates before testing the CLI:
+When you edit `.claude/` or `CLAUDE.md`, re-sync before testing:
 
 ```bash
-pnpm sync                  # alias for: node packages/cli/scripts/sync-templates.mjs
+pnpm sync
 ```
 
-`pnpm -r build` and `pnpm -r test` run sync automatically. The `prepack` hook also syncs before `npm publish`.
+`pnpm -r build`, `pnpm -r test`, and `prepack` all run sync automatically.
 
-## Distribution roadmap
+---
 
-- **Phase B (current)**: single npm package `@open-factory/cli` that scaffolds `.claude/` into target projects. Preserves POA semantics fully (per-agent `hooks`, `mcpServers`, `permissionMode` all live in the target project's files).
-- **Phase D (future)**: monorepo evolves with `@open-factory/core` (POA types + validators), `@open-factory/cli` (scaffolding + headless ops), and `@open-factory/plugin` (Claude Code plugin for the parts that tolerate plugin-level restrictions).
+## Roadmap
 
-See [`.claude/specs/constitution.md`](.claude/specs/constitution.md) §4 for rationale.
+| Milestone | Tasks | What it unlocks |
+|---|---|---|
+| **A — Foundation** | 0001–0006 | 4 hooks + `researcher` + `tl` · factory can use itself |
+| **B — Specify** | 0007–0014 | `planner` + `curator` + `specter` · UC-1 fully runnable |
+| **C — Implement** | 0015–0019 | `qa` + `coder` + `reviewer` · UC-2 runnable to code |
+| **D — Validate** | 0020–0029 | `tester` + `auditor` + `pr` + 6 commands · UC-1..4 complete |
+
+Current status: **v0.1 — beginning of Milestone A**.
+
+---
+
+## Contributing
+
+**Small fixes** — typos, clarifications, minor improvements — submit directly as a PR.
+
+**Larger changes** — new agents, new skills, architectural changes — open an issue first so we can align on spec before any code is written. (Yes, we dogfood the process.)
+
+**AI-generated code is welcome** — mention the agent and model used in the PR description.
+
+---
 
 ## License
 
-MIT
+MIT © Christian Rojas Rodriguez
