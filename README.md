@@ -120,7 +120,7 @@ Spec.version monotonic   — only the Auditor bumps, only at merge
 ## Agents
 
 | Agent | Layer | Objective |
-|---|------|
+|---|---|---|
 | `planner` | Bootstrap | Define Workflow, granularity, Tasks |
 | `curator` | Specify | Polish What/Why/How per Task |
 | `specter` | Specify | Materialize versioned Spec to disk |
