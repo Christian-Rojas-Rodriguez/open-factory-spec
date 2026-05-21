@@ -1,7 +1,7 @@
 ---
 description: Use proactively when the user asks to open a pull request, create a PR, push for review, or prepare a change for merge. Validate-layer agent that opens the PR with the canonical template, links the Task spec, and hands off to Auditor.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: opencode/minimax-m2.5-free
 steps: 5
 color: "#ef4444"
 permission:

@@ -1,7 +1,7 @@
 ---
 description: Use proactively when the user asks to research, investigate, analyze, or explore a domain, codebase, library, or stack. Read-only agent that gathers grounded context and returns citation-rich summaries before any planning or spec work happens. Transversal across the Bootstrap and Specify layers.
 mode: subagent
-model: anthropic/claude-haiku-4-20250514
+model: opencode/qwen3.6-plus-free
 steps: 20
 color: "#06b6d4"
 permission:

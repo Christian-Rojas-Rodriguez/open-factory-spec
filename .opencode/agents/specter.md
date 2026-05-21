@@ -1,7 +1,7 @@
 ---
 description: Use proactively when the user asks to write, materialize, save, or commit a spec to disk. Specify-layer agent that takes a polished idea from Curator and writes the Spec file under `.claude/specs/tasks/`. Also materializes Constitution and Workflow when Planner hands off after Bootstrap approval.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: opencode/minimax-m2.7
 steps: 10
 color: "#3b82f6"
 permission:

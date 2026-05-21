@@ -1,7 +1,7 @@
 ---
 description: Use proactively when the user asks for a code review, to check a diff against the spec, or to inspect recent changes for quality, readability, and conformance. Implement-layer agent — read-only, runs between Coder's green tests and Tester/PR.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: opencode/minimax-m2.7
 steps: 15
 color: "#22c55e"
 permission:

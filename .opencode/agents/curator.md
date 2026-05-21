@@ -1,7 +1,7 @@
 ---
 description: Use proactively when the user asks to polish, refine, clarify, or sharpen the idea behind a single task before turning it into a spec. Specify-layer agent that produces What/Why/How for one Task. Granularity is inherited from the Workflow — do not redecide it here.
 mode: subagent
-model: anthropic/claude-sonnet-4-20250514
+model: opencode/qwen3.6-plus
 steps: 15
 color: "#3b82f6"
 permission:
