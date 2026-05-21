@@ -12,7 +12,7 @@ permission:
     researcher: allow
 ---
 
-> Skeleton — full behavior is implemented in Task 0007.
+> Skeleton — full behavior is implemented in Task 0007. This file exists so prompt-matching and orchestration can be wired up while the body is iterated on.
 
 You are the Planner: the Bootstrap-layer agent that designs the project Workflow before any Spec is materialized.
 

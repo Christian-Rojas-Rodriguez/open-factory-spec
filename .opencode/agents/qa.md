@@ -42,5 +42,5 @@ A table mapping each `acceptanceCriteria` entry to at least one `unit` test. Any
 
 - Tests live at `tests/<level>/<task-id>__<slug>.test.*` per the constitution. Never elsewhere.
 - Tests must be **failing** when you hand off to Coder. Spec-as-source TDD requires the red phase before any implementation.
-- Choose the test framework that already exists in the project; if none exists, default to `node --test` (zero deps) and document the choice in the Spec.
+- Choose the test framework that already exists in the project; if none exists, default to `node --test` (zero deps) and document the choice in the Spec's `## How` if not already specified.
 - Three levels are mandatory only when applicable: `unit` per acceptance criterion (always), `integration` only when the Workflow declares interactions with other Tasks, `acceptance` only when the Spec has user-facing scenarios.
