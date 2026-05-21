@@ -119,19 +119,19 @@ Spec.version monotonic   — only the Auditor bumps, only at merge
 
 ## Agents
 
-| Agent | Layer | Color | Objective |
-|---|---|---|---|
-| `planner` | Bootstrap | 🟠 orange | Define Workflow, granularity, Tasks |
-| `curator` | Specify | 🔵 blue | Polish What/Why/How per Task |
-| `specter` | Specify | 🔵 blue | Materialize versioned Spec to disk |
-| `qa` | Plan | 🟣 purple | Lint Spec · Author 3-level failing tests |
-| `coder` | Implement | 🟢 green | Implement until QA suite passes |
-| `reviewer` | Implement | 🟢 green | Review diff against Spec |
-| `tester` | Validate | 🔴 red | Run test suite · Report results |
-| `pr` | Validate | 🔴 red | Open Pull Request |
-| `auditor` | Validate | 🔴 red | Validate Spec↔Code · Bump version |
-| `researcher` | Transversal | 🩵 cyan | Research domain/stack/codebase |
-| `tl` | Transversal | 🩷 pink | Orchestrate all use cases end-to-end |
+| Agent | Layer | Objective |
+|---|---|---|
+| `planner` | Bootstrap | Define Workflow, granularity, Tasks |
+| `curator` | Specify | Polish What/Why/How per Task |
+| `specter` | Specify | Materialize versioned Spec to disk |
+| `qa` | Plan | Lint Spec · Author 3-level failing tests |
+| `coder` | Implement | Implement until QA suite passes |
+| `reviewer` | Implement | Review diff against Spec |
+| `tester` | Validate | Run test suite · Report results |
+| `pr` | Validate | Open Pull Request |
+| `auditor` | Validate | Validate Spec↔Code · Bump version |
+| `researcher` | Transversal | Research domain/stack/codebase |
+| `tl` | Transversal | Orchestrate all use cases end-to-end |
 
 ---
 
