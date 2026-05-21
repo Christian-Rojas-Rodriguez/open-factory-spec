@@ -21,7 +21,7 @@ const templatesDir = resolve(cliRoot, "templates");
  * Allowlist of paths (relative to workspaceRoot) that get copied into templates/.
  * Keep this conservative: only the scaffolding source.
  */
-const ALLOWLIST = [".claude", "CLAUDE.md"];
+const ALLOWLIST = [".claude", "CLAUDE.md", ".gemini", "GEMINI.md"];
 
 /**
  * Within `.claude/`, exclude these dirs/files even though they match the allowlist.
