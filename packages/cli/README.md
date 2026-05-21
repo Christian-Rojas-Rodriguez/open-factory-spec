@@ -8,17 +8,39 @@
 npx @open-factory/cli init
 ```
 
-Drops a ready-to-use `.claude/` directory and `CLAUDE.md` in the current directory. After that, open Claude Code in the same directory:
+The CLI asks which AI provider you want to use, then drops the right files into the current directory:
 
-```bash
-claude
+```
+? Select your AI provider:
+  › 1. Anthropic — Claude Code
+    2. OpenAI — Codex CLI
+    3. OpenCode
+    4. Gemini — Gemini CLI
+
+Enter number (1–4) [1]:
 ```
 
-and start with `/factory-init` once the executable components (agents, skills, hooks, commands) are materialized.
+Then open your chosen tool in the same directory and start with `/factory-init` once the executable components (agents, skills, hooks, commands) are materialized.
+
+## Supported providers
+
+| Provider | Memory file | Command |
+|---|---|---|
+| Anthropic — Claude Code | `CLAUDE.md` | `claude` |
+| OpenAI — Codex CLI | `AGENTS.md` | `codex` |
+| OpenCode | `AGENTS.md` | `opencode` |
+| Gemini — Gemini CLI | `GEMINI.md` | `gemini` |
+
+Pass `--provider <id>` to skip the interactive prompt:
+
+```bash
+npx @open-factory/cli init --provider gemini
+npx @open-factory/cli init --provider opencode ./my-project
+```
 
 ## What `init` ships
 
-- `CLAUDE.md` — project memory loaded by Claude Code each session.
+- Agent-memory file (`CLAUDE.md`, `AGENTS.md`, or `GEMINI.md` depending on provider) — project memory loaded each session.
 - `.claude/specs/constitution.md` — non-negotiable principles.
 - `.claude/specs/workflow.md` — Tasks that build the factory itself.
 - `.claude/specs/SPEC.md` — master spec (12 sections).
@@ -28,11 +50,13 @@ and start with `/factory-init` once the executable components (agents, skills, h
 ## Flags
 
 ```
-init [dir]            scaffold into [dir] (default: cwd)
-  --force             overwrite existing .claude/ and CLAUDE.md
-  --dry-run           print plan without writing
-  --skip-claude-md    don't write CLAUDE.md
-  --yes, -y           non-interactive mode
+init [dir]              scaffold into [dir] (default: cwd)
+  --provider <id>       anthropic | openai | opencode | gemini
+                        prompted interactively when omitted
+  --force               overwrite existing files without prompting
+  --dry-run             print plan without writing
+  --skip-claude-md      don't write the agent-memory file
+  --yes, -y             non-interactive mode (defaults to anthropic)
 ```
 
 ## Versioning
