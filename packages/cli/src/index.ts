@@ -2,6 +2,7 @@
 import { parseArgs } from "node:util";
 import { runInit } from "./commands/init.js";
 import { c, errLine } from "./utils/term.js";
+import { providerIds } from "./utils/providers.js";
 
 const VERSION = "0.1.0";
 
@@ -13,13 +14,15 @@ ${c.bold("Usage:")}
   open-factory <command> [options]
 
 ${c.bold("Commands:")}
-  init [dir]           Drop a ready-to-use .claude/ and CLAUDE.md into [dir] (default: cwd)
+  init [dir]           Drop a ready-to-use .claude/ and agent-memory file into [dir] (default: cwd)
 
 ${c.bold("Options for init:")}
-  --force              Overwrite existing .claude/ and CLAUDE.md without prompting
+  --provider <id>      AI provider to scaffold for (${providerIds()})
+                       Prompted interactively when omitted
+  --force              Overwrite existing files without prompting
   --dry-run            Print what would be created without writing anything
-  --skip-claude-md     Don't write CLAUDE.md (keep an existing one untouched)
-  --yes, -y            Assume "yes" to all prompts (non-interactive mode)
+  --skip-claude-md     Don't write the agent-memory file (keep an existing one untouched)
+  --yes, -y            Assume "yes" to all prompts; defaults to anthropic provider
 
 ${c.bold("Global options:")}
   --help, -h           Show this help
@@ -27,7 +30,8 @@ ${c.bold("Global options:")}
 
 ${c.bold("Examples:")}
   npx @open-factory/cli init
-  npx @open-factory/cli init ./my-new-project
+  npx @open-factory/cli init --provider gemini
+  npx @open-factory/cli init ./my-new-project --provider openai
   npx @open-factory/cli init --dry-run
 `;
 
@@ -60,6 +64,7 @@ async function main(): Promise<number> {
         args: rest,
         allowPositionals: true,
         options: {
+          provider: { type: "string" },
           force: { type: "boolean", default: false },
           "dry-run": { type: "boolean", default: false },
           "skip-claude-md": { type: "boolean", default: false },
@@ -74,6 +79,7 @@ async function main(): Promise<number> {
       const targetDir = parsed.positionals[0] ?? ".";
       return await runInit({
         targetDir,
+        provider: parsed.values.provider as import("./utils/providers.js").ProviderId | undefined,
         force: !!parsed.values.force,
         dryRun: !!parsed.values["dry-run"],
         skipClaudeMd: !!parsed.values["skip-claude-md"],

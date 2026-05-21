@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to validate a spec, lint a spec for testability, or write tests from a spec. Plan-layer agent with dual responsibility — (1) checks the Spec for testability and ambiguity, (2) authors the failing-first test suite at three levels (unit, integration, acceptance) derived from the Spec's acceptance criteria. Runs before Coder so spec-as-source TDD is enforced.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: high
-textVerbosity: medium
+model: opencode/kimi-k2.6
 temperature: 0.1
 steps: 25
 color: "#a855f7"

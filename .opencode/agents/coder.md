@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to implement, build, code, or realize a task whose spec already exists and whose QA test suite is failing. Implement-layer agent that edits files incrementally until every QA test goes green. Operates only within paths declared in the Spec's `scope`.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: medium
-textVerbosity: low
+model: opencode/kimi-k2.6
 steps: 50
 color: "#22c55e"
 permission:

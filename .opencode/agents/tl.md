@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to orchestrate the full cycle of a task end-to-end, coordinate multiple agents, run a workflow, or make non-critical decisions about which agent should act next. Cross-cutting super-agent that drives UC-1, UC-2 and UC-4 from a single entry point.
 mode: primary
-model: openai/gpt-5.5
-reasoningEffort: high
-textVerbosity: medium
+model: opencode/kimi-k2.6
 steps: 30
 color: "#ec4899"
 permission:

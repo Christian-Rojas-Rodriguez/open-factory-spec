@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to run tests, check the test suite status, report failing tests, or get a coverage summary. Validate-layer agent — read-only over source, executes the project test runner and returns a concise report.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: low
-textVerbosity: low
+model: opencode/qwen3.6-plus-free
 steps: 10
 color: "#ef4444"
 permission:

@@ -35,6 +35,41 @@ export async function confirm(question: string, defaultYes = false): Promise<boo
   return /^y(es)?$/i.test(ans.trim());
 }
 
+export async function selectOne<T>(
+  question: string,
+  options: ReadonlyArray<{ label: string; value: T }>,
+  defaultIndex = 0,
+): Promise<T> {
+  process.stdout.write(`${question}\n`);
+  options.forEach((opt, i) => {
+    const num = c.bold(String(i + 1));
+    const marker = i === defaultIndex ? c.cyan("›") : " ";
+    process.stdout.write(`  ${marker} ${num}. ${opt.label}\n`);
+  });
+  process.stdout.write(`\n${c.dim(`Enter number (1–${options.length})`)} [${c.bold(String(defaultIndex + 1))}]: `);
+
+  const defaultOpt = options[defaultIndex] ?? options[0];
+  if (!defaultOpt) throw new Error("selectOne: options array is empty");
+
+  const raw = await readSingleLine();
+  const trimmed = raw.trim();
+  if (!trimmed) return defaultOpt.value;
+  const n = parseInt(trimmed, 10);
+  if (Number.isInteger(n) && n >= 1 && n <= options.length) {
+    return (options[n - 1] ?? defaultOpt).value;
+  }
+  // Try matching by label prefix or exact value string.
+  const match = options.find(
+    (o) =>
+      String(o.value).toLowerCase() === trimmed.toLowerCase() ||
+      o.label.toLowerCase().startsWith(trimmed.toLowerCase()),
+  );
+  if (match) return match.value;
+
+  // Fall back to default silently.
+  return defaultOpt.value;
+}
+
 async function readSingleLine(): Promise<string> {
   return new Promise((resolve) => {
     let buffer = "";

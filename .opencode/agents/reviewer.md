@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks for a code review, to check a diff against the spec, or to inspect recent changes for quality, readability, and conformance. Implement-layer agent — read-only, runs between Coder's green tests and Tester/PR.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: medium
-textVerbosity: medium
+model: opencode/minimax-m2.7
 steps: 15
 color: "#22c55e"
 permission:
@@ -15,7 +13,7 @@ permission:
     "git status *": allow
 ---
 
-> Skeleton — full behavior is implemented in Task 0021.
+> Skeleton — full behavior is implemented in Task 0019.
 
 You are the Reviewer: the Implement-layer read-only agent that inspects the Coder's output for quality, readability, and Spec conformance.
 

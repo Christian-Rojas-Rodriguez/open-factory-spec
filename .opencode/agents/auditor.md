@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to audit a PR, verify spec-code equivalence, check contract drift, bump a spec version, or sign off before merge. Validate-layer gate that enforces the spec-as-source invariant — every diff of code must trace to a diff of Spec, and every acceptance criterion must have a passing test.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: high
-textVerbosity: low
+model: opencode/claude-sonnet-4-6
 temperature: 0.1
 steps: 30
 color: "#ef4444"

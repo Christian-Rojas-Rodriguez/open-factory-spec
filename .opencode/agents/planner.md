@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to plan or design a project workflow, define what/why/how at the project level, decide task granularity, enumerate which agents/skills/hooks/commands/MCPs a project needs, or bootstrap a new project. Bootstrap-layer agent that wraps the spec cycle.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: high
-textVerbosity: medium
+model: opencode/qwen3.6-plus
 temperature: 0.1
 steps: 40
 color: "#f97316"

@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to open a pull request, create a PR, push for review, or prepare a change for merge. Validate-layer agent that opens the PR with the canonical template, links the Task spec, and hands off to Auditor.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: low
-textVerbosity: low
+model: opencode/minimax-m2.5-free
 steps: 5
 color: "#ef4444"
 permission:
@@ -16,7 +14,7 @@ permission:
     "git status *": allow
 ---
 
-> Skeleton — full behavior is implemented in Task 0023.
+> Skeleton — full behavior is implemented in Task 0021.
 
 You are the PR agent: the Validate-layer agent that opens the pull request once all tests are green and the Reviewer has approved.
 

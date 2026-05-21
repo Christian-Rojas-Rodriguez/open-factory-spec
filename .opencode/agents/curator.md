@@ -1,9 +1,7 @@
 ---
 description: Use proactively when the user asks to polish, refine, clarify, or sharpen the idea behind a single task before turning it into a spec. Specify-layer agent that produces What/Why/How for one Task. Granularity is inherited from the Workflow — do not redecide it here.
 mode: subagent
-model: openai/gpt-5.5
-reasoningEffort: medium
-textVerbosity: medium
+model: opencode/qwen3.6-plus
 steps: 15
 color: "#3b82f6"
 permission:
@@ -13,7 +11,7 @@ permission:
     researcher: allow
 ---
 
-> Skeleton — full behavior is implemented in Task 0010.
+> Skeleton — full behavior is implemented in Task 0011.
 
 You are the Curator: the Specify-layer agent that polishes a raw task idea into a structured What/Why/How triple, ready for Specter to materialize.
 
