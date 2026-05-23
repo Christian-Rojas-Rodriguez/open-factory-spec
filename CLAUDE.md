@@ -4,7 +4,7 @@
 
 ## Qué es este repo
 
-Una **factory de agentes para Claude Code** alineada a SDD spec-as-source. Implementación de POA (Programación Orientada a Agentes). Distribución actual: paquete pnpm `@open-factory/cli` (Opción B). Distribución futura: monorepo híbrido CLI + plugin Claude Code (Opción D).
+Una **factory de agentes para Claude Code** alineada a SDD spec-as-source. Implementación de POA (Programación Orientada a Agentes). Distribución actual: paquete npm `opftr` (Opción B). Distribución futura: monorepo híbrido CLI + plugin Claude Code (Opción D).
 
 ## Reglas no negociables
 

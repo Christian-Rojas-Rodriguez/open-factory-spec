@@ -1,11 +1,11 @@
-# @open-factory/cli
+# opftr
 
 > Scaffold an `open-factory-spec` (POA + SDD spec-as-source) into your project.
 
 ## Quick start
 
 ```bash
-npx @open-factory/cli init
+npx opftr init
 ```
 
 The CLI asks which AI provider you want to use, then drops the right files into the current directory:
@@ -34,8 +34,8 @@ Then open your chosen tool in the same directory and start with `/factory-init` 
 Pass `--provider <id>` to skip the interactive prompt:
 
 ```bash
-npx @open-factory/cli init --provider gemini
-npx @open-factory/cli init --provider opencode ./my-project
+npx opftr init --provider gemini
+npx opftr init --provider opencode ./my-project
 ```
 
 ## What `init` ships
@@ -61,7 +61,7 @@ init [dir]              scaffold into [dir] (default: cwd)
 
 ## Versioning
 
-`@open-factory/cli` ships the entire factory as a tagged snapshot. Each new agent, skill, hook or command added upstream becomes a minor/patch release. Projects bootstrapped with an older version can upgrade by re-running `init --force` after backing up local changes (proper merge tooling is on the Phase D roadmap).
+`opftr` ships the entire factory as a tagged snapshot. Each new agent, skill, hook or command added upstream becomes a minor/patch release. Projects bootstrapped with an older version can upgrade by re-running `init --force` after backing up local changes (proper merge tooling is on the Phase D roadmap).
 
 ## Documentation
 

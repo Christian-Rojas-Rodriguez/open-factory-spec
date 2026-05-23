@@ -60,8 +60,8 @@
 
 Decisión aprobada (May 17, 2026):
 
-- **Fase inicial (B)**: paquete pnpm `@open-factory/cli` que scaffoldea `.claude/` + `CLAUDE.md` en el proyecto target. Este repo es a la vez factory funcional y fuente del template.
-- **Fase futura (D)**: monorepo pnpm con `@open-factory/core` (tipos + validadores), `@open-factory/cli` (scaffolding + headless ops) y `@open-factory/plugin` (Claude Code plugin). El plugin distribuye lo que tolera ser plugin-level; el CLI sigue generando lo que necesita campos por-agent restringidos en plugins (`hooks`, `mcpServers`, `permissionMode`).
+- **Fase inicial (B)**: paquete npm `opftr` (unscoped) que scaffoldea `.claude/` + `CLAUDE.md` en el proyecto target. Este repo es a la vez factory funcional y fuente del template. Nombre corto y unscoped para que `npx opftr init` funcione sin org registrada.
+- **Fase futura (D)**: monorepo pnpm bajo la org `@open-factory` con `@open-factory/core` (tipos + validadores), `@open-factory/cli` (scaffolding + headless ops, sucesor de `opftr`) y `@open-factory/plugin` (Claude Code plugin). El plugin distribuye lo que tolera ser plugin-level; el CLI sigue generando lo que necesita campos por-agent restringidos en plugins (`hooks`, `mcpServers`, `permissionMode`). La migración de `opftr` → `@open-factory/cli` se hace cuando se registre la org en npm.
 
 **Implicancia para el layout actual**: nada cambia. Los archivos en `.claude/` son a la vez el dogfooding de la factory y los templates que el CLI publicará. Cero re-trabajo al migrar.
 

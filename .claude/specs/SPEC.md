@@ -2,7 +2,7 @@
 
 > Spec maestra de la factory. Consolida los principios de [`constitution.md`](./constitution.md), el modelo POA de [`diagrams/poa-class.md`](./diagrams/poa-class.md), los casos de uso de [`diagrams/sequences.md`](./diagrams/sequences.md), las convenciones de invocación de [`diagrams/invocation-fixtures.md`](./diagrams/invocation-fixtures.md) y el plan de implementación de [`workflow.md`](./workflow.md).
 >
-> Versión: `0.1.0` (blueprint inicial). Bumpea según política §11.
+> Versión: `0.1.1` (blueprint inicial). Bumpea según política §11.
 
 ---
 
@@ -20,7 +20,7 @@
 - MCPs (la factory base no trae conectores; los Agents de dominio los declaran).
 - UI/dashboards. La factory vive en archivos, terminales y editores.
 
-**Distribución prevista** (constitution §4): Fase actual **Opción B** — paquete `@open-factory/cli` que scaffoldea `.claude/` en proyectos target. Fase futura **Opción D** — monorepo con `@open-factory/core`, `@open-factory/cli` y `@open-factory/plugin`.
+**Distribución prevista** (constitution §4): Fase actual **Opción B** — paquete `opftr` (unscoped) que scaffoldea `.claude/` en proyectos target. Fase futura **Opción D** — monorepo bajo org `@open-factory` con `@open-factory/core`, `@open-factory/cli` y `@open-factory/plugin`.
 
 ---
 
@@ -386,10 +386,10 @@ Hitos:
 
 ## 13. Capa de empaquetado (no POA)
 
-La factory se distribuye como paquete pnpm `@open-factory/cli` (constitution §4, Opción B). El paquete vive en `packages/cli/` del monorepo y NO es un componente POA: es **infraestructura de distribución**, no se declara en `Workflow.declared*`. Sus reglas:
+La factory se distribuye como paquete npm `opftr` (unscoped, constitution §4, Opción B). El paquete vive en `packages/cli/` del monorepo y NO es un componente POA: es **infraestructura de distribución**, no se declara en `Workflow.declared*`. Sus reglas:
 
 - **Dogfooding**: `.claude/` y `CLAUDE.md` en la raíz del repo SON el template. `packages/cli/scripts/sync-templates.mjs` copia ese contenido a `packages/cli/templates/` antes de cada build/publish. Hay un único source-of-truth editable.
-- **Cero deps de runtime** en `@open-factory/cli`. Solo Node builtins (`node:fs`, `node:path`, `node:util`). Esto minimiza la superficie de supply chain y hace `npx` instantáneo.
+- **Cero deps de runtime** en `opftr`. Solo Node builtins (`node:fs`, `node:path`, `node:util`). Esto minimiza la superficie de supply chain y hace `npx` instantáneo.
 - **Versionado del paquete**: SemVer independiente de las Specs internas. El paquete versiona el snapshot del template; cada agent/skill nuevo sumado al `.claude/` raíz produce un minor del paquete.
 - **Guarda anti self-bootstrap**: el comando `init` rechaza correr contra el propio repo del monorepo (detecta que el target contiene el `templates/`); el flag `--force` permite override consciente.
 - **Comandos planeados**:
@@ -398,7 +398,7 @@ La factory se distribuye como paquete pnpm `@open-factory/cli` (constitution §4
   - `validate [dir]` — fase B v0.3 (TODO): corre `permissions-guard` + `pre-spec-validate` offline sin abrir Claude Code.
   - `agent new <name>` — fase B v0.4 (TODO): wrapper headless que invoca al Planner via Claude Code Agent SDK para UC-4.
 
-Cuando lleguemos a la fase D, este package se renombra a `@open-factory/cli` (mismo) y se suman `@open-factory/core` (tipos + validadores reutilizables) y `@open-factory/plugin` (plugin nativo de Claude Code para lo que tolera vivir como plugin). La factory en `.claude/` no se ve afectada.
+Cuando lleguemos a la fase D, este package se renombra de `opftr` a `@open-factory/cli` (al registrar la org en npm) y se suman `@open-factory/core` (tipos + validadores reutilizables) y `@open-factory/plugin` (plugin nativo de Claude Code para lo que tolera vivir como plugin). La factory en `.claude/` no se ve afectada. `opftr` queda como alias de retrocompatibilidad si hace falta.
 
 ---
 

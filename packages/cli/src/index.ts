@@ -6,12 +6,12 @@ import { providerIds } from "./utils/providers.js";
 
 const VERSION = "0.1.0";
 
-const HELP = `${c.bold("open-factory")} ${c.dim("v" + VERSION)}
+const HELP = `${c.bold("opftr")} ${c.dim("v" + VERSION)}
 
 Scaffold an open-factory-spec (POA + SDD spec-as-source) into your project.
 
 ${c.bold("Usage:")}
-  open-factory <command> [options]
+  opftr <command> [options]
 
 ${c.bold("Commands:")}
   init [dir]           Drop a ready-to-use .claude/ and agent-memory file into [dir] (default: cwd)
@@ -29,10 +29,10 @@ ${c.bold("Global options:")}
   --version, -v        Show version
 
 ${c.bold("Examples:")}
-  npx @open-factory/cli init
-  npx @open-factory/cli init --provider gemini
-  npx @open-factory/cli init ./my-new-project --provider openai
-  npx @open-factory/cli init --dry-run
+  npx opftr init
+  npx opftr init --provider gemini
+  npx opftr init ./my-new-project --provider openai
+  npx opftr init --dry-run
 `;
 
 function printHelp(): void {
@@ -88,7 +88,7 @@ async function main(): Promise<number> {
     }
     default:
       errLine(`${c.red("Unknown command:")} ${command}`);
-      errLine(`Run ${c.bold("open-factory --help")} for usage.`);
+      errLine(`Run ${c.bold("opftr --help")} for usage.`);
       return 2;
   }
 }

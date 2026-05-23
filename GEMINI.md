@@ -4,7 +4,7 @@
 
 ## Qué es este repo
 
-Una **factory de agentes** alineada a SDD spec-as-source e implementación de POA (Programación Orientada a Agentes). Distribución: paquete pnpm `@open-factory/cli`. Los humanos editan specs y aprueban PRs — los agentes escriben el código.
+Una **factory de agentes** alineada a SDD spec-as-source e implementación de POA (Programación Orientada a Agentes). Distribución: paquete npm `opftr`. Los humanos editan specs y aprueban PRs — los agentes escriben el código.
 
 ## Reglas no negociables
 

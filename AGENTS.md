@@ -15,7 +15,7 @@ tests/               # unit / integration / acceptance tests
   unit/              # tests/<level>/<task-id>__<slug>.test.*
   integration/
   acceptance/
-packages/            # CLI package (@open-factory/cli)
+packages/            # CLI package (opftr)
 ```
 
 ## Non-negotiable rules

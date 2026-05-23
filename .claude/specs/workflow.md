@@ -194,4 +194,4 @@ Cada Task se considera completa cuando:
 
 ## 7. Out of scope para este Workflow
 
-El paquete `@open-factory/cli` (en `packages/cli/`) **no es una Task POA**: es la capa de empaquetado/distribución de la factory (SPEC §13). No se declara en `Workflow.declaredAgents/Skills/Hooks/Commands` porque no compone agentes; los empaqueta. Tiene su propio README, sus propios tests, y un ciclo de release independiente del versionado de Specs.
+El paquete `opftr` (en `packages/cli/`, futura migración a `@open-factory/cli` en fase D) **no es una Task POA**: es la capa de empaquetado/distribución de la factory (SPEC §13). No se declara en `Workflow.declaredAgents/Skills/Hooks/Commands` porque no compone agentes; los empaqueta. Tiene su propio README, sus propios tests, y un ciclo de release independiente del versionado de Specs.

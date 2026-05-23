@@ -43,7 +43,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
   // Verify the templates directory exists.
   if (!existsSync(templatesDir)) {
     errLine(`${c.red("Templates directory not found at:")} ${templatesDir}`);
-    errLine(`Run ${c.bold("pnpm --filter @open-factory/cli sync")} first.`);
+    errLine(`Run ${c.bold("pnpm --filter opftr sync")} first.`);
     return 2;
   }
 
@@ -64,7 +64,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
     provider = DEFAULT_PROVIDER;
   } else {
     line(
-      `${c.bold("open-factory init")} — ${c.dim("spec-as-source agent factory")}`,
+      `${c.bold("opftr init")} — ${c.dim("spec-as-source agent factory")}`,
     );
     line();
     const chosen = await selectOne(
@@ -77,7 +77,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
   }
 
   line(
-    `${c.bold("open-factory init")} → ${c.cyan(targetDir)}  ${c.dim("[" + provider.label + "]")}`,
+    `${c.bold("opftr init")} → ${c.cyan(targetDir)}  ${c.dim("[" + provider.label + "]")}`,
   );
   line(`${c.dim("templates:")} ${c.dim(templatesDir)}`);
   line();
