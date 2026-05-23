@@ -109,9 +109,10 @@ export async function runInit(opts: InitOptions): Promise<number> {
   line(`Next steps:`);
   line(`  1. Review ${c.cyan(".claude/specs/SPEC.md")} and ${c.cyan(".claude/specs/constitution.md")}`);
   line(`  2. Choose your runtime:`);
-  line(`     • Claude Code  → ${c.cyan("claude")}  (reads ${c.dim("CLAUDE.md")} + ${c.dim(".claude/agents/")})`);
-  line(`     • Gemini CLI   → ${c.cyan("gemini")}  (reads ${c.dim("GEMINI.md")} + ${c.dim(".gemini/agents/")})`);
-  line(`     • OpenCode     → ${c.cyan("opencode")} (reads ${c.dim(".opencode/agents/")})`);
+  line(`     • Claude Code  → ${c.cyan("claude")}   (reads ${c.dim("CLAUDE.md")} + ${c.dim(".claude/agents/")})`);
+  line(`     • Gemini CLI   → ${c.cyan("gemini")}   (reads ${c.dim("GEMINI.md")} + ${c.dim(".gemini/agents/")})`);
+  line(`     • OpenAI Codex → ${c.cyan("codex")}    (reads ${c.dim("AGENTS.md")} + ${c.dim("AGENTS.<agent>.md")})`);
+  line(`     • OpenCode     → ${c.cyan("opencode")} (reads ${c.dim("opencode.json")} + ${c.dim(".opencode/agents/")})`);
   line(`  3. Once Hito A is materialized, run ${c.cyan("/factory-init")} to bootstrap your project`);
   return 0;
 }
