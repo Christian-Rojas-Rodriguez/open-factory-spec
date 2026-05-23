@@ -1,8 +1,12 @@
 <div align="center">
 
-<br />
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.svg">
+  <img alt="open/factory — an agent factory for spec-driven software" src=".github/assets/banner-light.svg" width="100%">
+</picture>
 
-<h1>👾 Open Factory Spec</h1>
+<br />
+<br />
 
 <p><strong>An agent factory for Claude Code.</strong><br />
 Scaffold a self-consistent <code>.claude/</code> directory — 11 agents, 8 skills, and a 5-level contract system — with one command.</p>
