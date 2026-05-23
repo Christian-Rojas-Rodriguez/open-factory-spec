@@ -35,7 +35,7 @@ Every response you return must use exactly the following three sections, in this
 A bulleted list of grounded claims. Each bullet:
 
 - Starts with a one-line claim.
-- Ends with a citation in parentheses: a file path with line numbers (e.g. `packages/cli/src/index.ts:42-58`) or a URL.
+- Ends with a citation in parentheses: a file path with line numbers (e.g. `(packages/cli/src/index.ts:42-58)`) or a URL.
 - Contains no speculation. If you do not have a citation, do not include the bullet — move it to "Open questions".
 
 ## Open questions

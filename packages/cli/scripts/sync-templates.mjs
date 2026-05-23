@@ -21,7 +21,13 @@ const templatesDir = resolve(cliRoot, "templates");
  * Allowlist of paths (relative to workspaceRoot) that get copied into templates/.
  * Keep this conservative: only the scaffolding source.
  */
-const ALLOWLIST = [".claude", "CLAUDE.md"];
+const ALLOWLIST = [".claude", "CLAUDE.md", ".gemini", "GEMINI.md", ".opencode", "AGENTS.md", "opencode.json"];
+
+/**
+ * Glob prefixes: any file in workspaceRoot whose name starts with one of these
+ * strings will also be included. Use for multi-file patterns like AGENTS.*.md.
+ */
+const GLOB_PREFIXES = ["AGENTS."];
 
 /**
  * Within `.claude/`, exclude these dirs/files even though they match the allowlist.
@@ -43,7 +49,14 @@ async function main() {
   let copied = 0;
   let skipped = 0;
 
-  for (const entry of ALLOWLIST) {
+  // Expand GLOB_PREFIXES: include any root file whose name starts with a prefix.
+  const rootEntries = await readdir(workspaceRoot, { withFileTypes: true });
+  const prefixMatches = rootEntries
+    .filter((e) => e.isFile() && GLOB_PREFIXES.some((p) => e.name.startsWith(p)))
+    .map((e) => e.name);
+  const fullList = [...new Set([...ALLOWLIST, ...prefixMatches])];
+
+  for (const entry of fullList) {
     const from = resolve(workspaceRoot, entry);
     const to = resolve(templatesDir, entry);
     if (!existsSync(from)) {
