@@ -2,7 +2,14 @@ import { access, cp, mkdir, readdir, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve, join } from "node:path";
 import { getTemplatesDir } from "../utils/paths.js";
-import { c, confirm, errLine, line } from "../utils/term.js";
+import { c, confirm, errLine, line, selectOne } from "../utils/term.js";
+import {
+  DEFAULT_PROVIDER,
+  findProvider,
+  type Provider,
+  type ProviderId,
+  PROVIDERS,
+} from "../utils/providers.js";
 
 export interface InitOptions {
   targetDir: string;
@@ -10,6 +17,7 @@ export interface InitOptions {
   dryRun: boolean;
   skipClaudeMd: boolean;
   yes: boolean;
+  provider?: ProviderId;
 }
 
 interface PlannedCopy {
@@ -24,7 +32,6 @@ export async function runInit(opts: InitOptions): Promise<number> {
   const templatesDir = getTemplatesDir();
 
   // Self-bootstrap guard: refuse to overwrite ourselves unless --force.
-  // Detect by checking if target IS the workspace that contains templatesDir.
   if (isSameOrAncestor(targetDir, templatesDir) && !opts.force) {
     errLine(
       `${c.red("Refusing to scaffold into the open-factory-spec source tree itself.")}`,
@@ -40,7 +47,38 @@ export async function runInit(opts: InitOptions): Promise<number> {
     return 2;
   }
 
-  line(`${c.bold("open-factory init")} → ${c.cyan(targetDir)}`);
+  // ── Provider selection ──────────────────────────────────────────────────────
+  let provider: Provider;
+
+  if (opts.provider) {
+    const found = findProvider(opts.provider);
+    if (!found) {
+      errLine(`${c.red("Unknown provider:")} ${opts.provider}`);
+      errLine(
+        `Valid choices: ${PROVIDERS.map((p) => c.bold(p.id)).join(", ")}`,
+      );
+      return 2;
+    }
+    provider = found;
+  } else if (opts.yes || !process.stdin.isTTY) {
+    provider = DEFAULT_PROVIDER;
+  } else {
+    line(
+      `${c.bold("open-factory init")} — ${c.dim("spec-as-source agent factory")}`,
+    );
+    line();
+    const chosen = await selectOne(
+      `${c.bold("?")} Select your AI provider:`,
+      PROVIDERS.map((p) => ({ label: p.label, value: p.id as ProviderId })),
+      0,
+    );
+    provider = findProvider(chosen) as Provider;
+    line();
+  }
+
+  line(
+    `${c.bold("open-factory init")} → ${c.cyan(targetDir)}  ${c.dim("[" + provider.label + "]")}`,
+  );
   line(`${c.dim("templates:")} ${c.dim(templatesDir)}`);
   line();
 
@@ -49,7 +87,19 @@ export async function runInit(opts: InitOptions): Promise<number> {
   const planned: PlannedCopy[] = [];
   const entries = await readdir(templatesDir, { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.name === "CLAUDE.md" && opts.skipClaudeMd) continue;
+    // The template ships the file as CLAUDE.md; rename it to whatever the
+    // chosen provider expects (e.g. AGENTS.md, GEMINI.md).
+    if (entry.name === "CLAUDE.md") {
+      if (opts.skipClaudeMd) continue;
+      const dst = join(targetDir, provider.memoryFile);
+      planned.push({
+        src: join(templatesDir, entry.name),
+        dst,
+        kind: "file",
+        exists: existsSync(dst),
+      });
+      continue;
+    }
     const src = join(templatesDir, entry.name);
     const dst = join(targetDir, entry.name);
     planned.push({
