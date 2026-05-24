@@ -6,33 +6,38 @@ import { providerIds } from "./utils/providers.js";
 
 const VERSION = "0.1.0";
 
-const HELP = `${c.bold("open-factory")} ${c.dim("v" + VERSION)}
+const HELP = `${c.bold("opftr")} ${c.dim("v" + VERSION)}
 
 Scaffold an open-factory-spec (POA + SDD spec-as-source) into your project.
 
 ${c.bold("Usage:")}
-  open-factory <command> [options]
+  opftr <command> [options]
 
 ${c.bold("Commands:")}
-  init [dir]           Drop a ready-to-use .claude/ and agent-memory file into [dir] (default: cwd)
+  init [dir]               Drop a ready-to-use .claude/ and agent-memory file into [dir] (default: cwd)
 
 ${c.bold("Options for init:")}
-  --provider <id>      AI provider to scaffold for (${providerIds()})
-                       Prompted interactively when omitted
-  --force              Overwrite existing files without prompting
-  --dry-run            Print what would be created without writing anything
-  --skip-claude-md     Don't write the agent-memory file (keep an existing one untouched)
-  --yes, -y            Assume "yes" to all prompts; defaults to anthropic provider
+  --provider <id>          Same provider for all phases (${providerIds()})
+                           Prompted interactively when omitted
+  --spec-provider <id>     Provider for spec phase (planner, curator, specter, qa, researcher)
+  --code-provider <id>     Provider for code phase (coder, reviewer, tester)
+  --review-provider <id>   Provider for review phase (auditor, pr, tl)
+  --force                  Overwrite existing files without prompting
+  --dry-run                Print what would be created without writing anything
+  --skip-claude-md         Don't write the agent-memory file (keep an existing one untouched)
+  --yes, -y                Assume "yes" to all prompts; defaults to anthropic provider
 
 ${c.bold("Global options:")}
-  --help, -h           Show this help
-  --version, -v        Show version
+  --help, -h               Show this help
+  --version, -v            Show version
 
 ${c.bold("Examples:")}
-  npx @open-factory/cli init
-  npx @open-factory/cli init --provider gemini
-  npx @open-factory/cli init ./my-new-project --provider openai
-  npx @open-factory/cli init --dry-run
+  npx opftr init
+  npx opftr init --provider gemini
+  npx opftr init --spec-provider anthropic --code-provider gemini
+  npx opftr init --spec-provider anthropic --code-provider opencode --review-provider anthropic
+  npx opftr init ./my-new-project --provider openai
+  npx opftr init --dry-run
 `;
 
 function printHelp(): void {
@@ -65,6 +70,9 @@ async function main(): Promise<number> {
         allowPositionals: true,
         options: {
           provider: { type: "string" },
+          "spec-provider": { type: "string" },
+          "code-provider": { type: "string" },
+          "review-provider": { type: "string" },
           force: { type: "boolean", default: false },
           "dry-run": { type: "boolean", default: false },
           "skip-claude-md": { type: "boolean", default: false },
@@ -80,6 +88,9 @@ async function main(): Promise<number> {
       return await runInit({
         targetDir,
         provider: parsed.values.provider as import("./utils/providers.js").ProviderId | undefined,
+        specProvider: parsed.values["spec-provider"] as import("./utils/providers.js").ProviderId | undefined,
+        codeProvider: parsed.values["code-provider"] as import("./utils/providers.js").ProviderId | undefined,
+        reviewProvider: parsed.values["review-provider"] as import("./utils/providers.js").ProviderId | undefined,
         force: !!parsed.values.force,
         dryRun: !!parsed.values["dry-run"],
         skipClaudeMd: !!parsed.values["skip-claude-md"],
@@ -88,7 +99,7 @@ async function main(): Promise<number> {
     }
     default:
       errLine(`${c.red("Unknown command:")} ${command}`);
-      errLine(`Run ${c.bold("open-factory --help")} for usage.`);
+      errLine(`Run ${c.bold("opftr --help")} for usage.`);
       return 2;
   }
 }
