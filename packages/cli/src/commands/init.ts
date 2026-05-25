@@ -89,8 +89,9 @@ export async function runInit(opts: InitOptions): Promise<number> {
     if (multiPhase) {
       const phaseMap: Partial<PhaseMap> = {};
       for (const phase of PHASES) {
+        const colorFn = c[phase.color];
         const chosen = await selectOne(
-          `${c.bold("?")} ${phase.label}  ${c.dim(phase.hint)}`,
+          `${c.bold("?")} ${colorFn(phase.label)}  ${c.dim(phase.hint)}`,
           PROVIDERS.map((p) => ({ label: p.label, value: p.id as ProviderId })),
           0,
         );
@@ -136,7 +137,8 @@ export async function runInit(opts: InitOptions): Promise<number> {
     line(c.dim("Phase mapping:"));
     for (const phase of PHASES) {
       const p = findProvider(phases[phase.id as PhaseId]) as Provider;
-      line(`  ${c.dim(phase.id.padEnd(8))}${p.label}`);
+      const colorFn = c[phase.color];
+      line(`  ${colorFn(c.bold(phase.id.padEnd(8)))}${p.label}`);
     }
     line();
   }
@@ -202,12 +204,12 @@ export async function runInit(opts: InitOptions): Promise<number> {
   for (const p of planned) {
     const marker = p.exists
       ? p.kind === "directory"
-        ? c.dim("~ overwrite dir ")
-        : c.dim("~ overwrite file")
+        ? c.yellow("~ overwrite dir ")
+        : c.yellow("~ overwrite file")
       : p.kind === "directory"
-        ? "+ new dir "
-        : "+ new file";
-    line(`  ${marker}  ${p.dst.replace(targetDir + "/", "")}`);
+        ? c.cyan("+ new dir ")
+        : c.cyan("+ new file");
+    line(`  ${marker}  ${c.dim(p.dst.replace(targetDir + "/", ""))}`);
   }
   line();
 
