@@ -1,5 +1,5 @@
 ---
-description: Catalog the agents, skills, hooks, commands, and MCPs needed for a project, with per-agent model/effort/maxTurns/permissionMode recommendations and minimum-privilege tool allowlists. Used by Planner during Bootstrap (UC-1) and during UC-4 (`/agent-new`).
+description: Catalog the agents, skills, hooks, commands, and MCPs needed for a project, with per-agent model/effort/maxTurns/permissionMode recommendations and minimum-privilege tool allowlists. Used by Planner via draft-rfc when populating RFC §8 (Declaración POA) during Bootstrap (UC-1), and during UC-4 (`/agent-new`).
 disable-model-invocation: true
 allowed-tools: Read
 ---

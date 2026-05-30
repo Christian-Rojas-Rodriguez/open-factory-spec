@@ -1,11 +1,11 @@
-# @open-factory/cli
+# opftr
 
 > Scaffold an `open-factory-spec` (POA + SDD spec-as-source) into your project.
 
 ## Quick start
 
 ```bash
-npx @open-factory/cli init
+npx opftr init
 ```
 
 The CLI asks which AI provider you want to use, then drops the right files into the current directory:
@@ -34,8 +34,8 @@ Then open your chosen tool in the same directory and start with `/factory-init` 
 Pass `--provider <id>` to skip the interactive prompt:
 
 ```bash
-npx @open-factory/cli init --provider gemini
-npx @open-factory/cli init --provider opencode ./my-project
+npx opftr init --provider gemini
+npx opftr init --provider opencode ./my-project
 ```
 
 ## What `init` ships
@@ -47,6 +47,22 @@ npx @open-factory/cli init --provider opencode ./my-project
 - `.claude/specs/diagrams/{poa-class,sequences,invocation-fixtures}.md` — POA model + use cases + smoke-tests.
 - *(progressively)* `.claude/agents/`, `.claude/skills/`, `.claude/hooks/`, `.claude/commands/`, `.claude/settings.json` — executable components as they ship in each release.
 
+## Updating
+
+When a new version of `opftr` ships with updated agents, skills, or hooks, run:
+
+```bash
+npx opftr@latest update
+```
+
+This reads your existing `opftr.config.json` (no prompts needed), updates all factory-owned files (agents, skills, hooks, specs), and **preserves** your user data:
+
+- `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` — project memory is never overwritten.
+- `.claude/specs/tasks/` — your task specs are never touched.
+- `opftr.config.json` — only the `version` field is bumped.
+
+Use `--dry-run` to preview what would change without writing anything.
+
 ## Flags
 
 ```
@@ -57,11 +73,15 @@ init [dir]              scaffold into [dir] (default: cwd)
   --dry-run             print plan without writing
   --skip-claude-md      don't write the agent-memory file
   --yes, -y             non-interactive mode (defaults to anthropic)
+
+update [dir]            update agents/skills/hooks from the latest package
+  --force               apply without prompting for confirmation
+  --dry-run             print what would change without writing
 ```
 
 ## Versioning
 
-`@open-factory/cli` ships the entire factory as a tagged snapshot. Each new agent, skill, hook or command added upstream becomes a minor/patch release. Projects bootstrapped with an older version can upgrade by re-running `init --force` after backing up local changes (proper merge tooling is on the Phase D roadmap).
+`opftr` ships the entire factory as a tagged snapshot. Each new agent, skill, hook or command added upstream becomes a minor/patch release. Projects bootstrapped with an older version can upgrade by running `npx opftr@latest update`.
 
 ## Documentation
 

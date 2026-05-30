@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 import { parseArgs } from "node:util";
 import { runInit } from "./commands/init.js";
+import { runUpdate } from "./commands/update.js";
 import { c, errLine } from "./utils/term.js";
 import { providerIds } from "./utils/providers.js";
 
-const VERSION = "0.1.0";
+const VERSION = "0.1.2";
 
 const HELP = `${c.bold("opftr")} ${c.dim("v" + VERSION)}
 
@@ -15,6 +16,7 @@ ${c.bold("Usage:")}
 
 ${c.bold("Commands:")}
   init [dir]               Drop a ready-to-use .claude/ and agent-memory file into [dir] (default: cwd)
+  update [dir]             Update agents, skills and hooks from the latest package; preserves user specs
 
 ${c.bold("Options for init:")}
   --provider <id>          Same provider for all phases (${providerIds()})
@@ -31,6 +33,10 @@ ${c.bold("Global options:")}
   --help, -h               Show this help
   --version, -v            Show version
 
+${c.bold("Options for update:")}
+  --force                  Apply updates without prompting for confirmation
+  --dry-run                Print what would change without writing anything
+
 ${c.bold("Examples:")}
   npx opftr init
   npx opftr init --provider gemini
@@ -38,6 +44,9 @@ ${c.bold("Examples:")}
   npx opftr init --spec-provider anthropic --code-provider opencode --review-provider anthropic
   npx opftr init ./my-new-project --provider openai
   npx opftr init --dry-run
+  npx opftr update
+  npx opftr update --dry-run
+  npx opftr update ./my-project --force
 `;
 
 function printHelp(): void {
@@ -95,6 +104,27 @@ async function main(): Promise<number> {
         dryRun: !!parsed.values["dry-run"],
         skipClaudeMd: !!parsed.values["skip-claude-md"],
         yes: !!parsed.values.yes,
+      });
+    }
+    case "update": {
+      const parsed = parseArgs({
+        args: rest,
+        allowPositionals: true,
+        options: {
+          force: { type: "boolean", default: false },
+          "dry-run": { type: "boolean", default: false },
+          help: { type: "boolean", short: "h", default: false },
+        },
+      });
+      if (parsed.values.help) {
+        printHelp();
+        return 0;
+      }
+      const targetDir = parsed.positionals[0] ?? ".";
+      return await runUpdate({
+        targetDir,
+        force: !!parsed.values.force,
+        dryRun: !!parsed.values["dry-run"],
       });
     }
     default:

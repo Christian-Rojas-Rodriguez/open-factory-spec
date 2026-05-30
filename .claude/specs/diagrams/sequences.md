@@ -5,8 +5,8 @@
 ## UC-1 — Bootstrap del proyecto
 
 **Trigger**: `/factory-init "<descripción del proyecto>"`.
-**Salida**: `.claude/specs/constitution.md`, `.claude/specs/workflow.md`, `.claude/specs/tasks/*.md`, skeletons de los Agents/Skills/Hooks/Commands declarados.
-**Punto clave**: el User aprueba el Workflow y las Tasks antes de que Specter materialice nada.
+**Salida**: `.claude/specs/prd.md`, `.claude/specs/rfc.md`, `.claude/specs/workflow.md` (derivado del RFC), `.claude/specs/constitution.md`, `.claude/specs/tasks/*.md`, skeletons de los Agents/Skills/Hooks/Commands declarados.
+**Punto clave**: el Bootstrap tiene **dos gates de revisión humana** (PRD → RFC). Nada se escribe a disco hasta que ambos están aprobados.
 
 ```mermaid
 sequenceDiagram
@@ -19,28 +19,49 @@ sequenceDiagram
     User->>TL: /factory-init "ML training pipeline"
     TL->>R: investiga dominio + stack + restricciones
     R-->>TL: hallazgos
-    TL->>P: define Workflow (What/Why + How + granularidad + agents/skills/hooks/commands/MCPs)
-    P-->>User: propone Workflow + Tasks + cat&aacute;logo de agents
-    User-->>P: review (granularidad ok? tasks ok? agents ok?)
-    alt User pide ajustes
-        P->>P: itera (puede re-invocar researcher)
-        P-->>User: nueva propuesta
+    TL->>P: conduce Bootstrap (PRD → RFC)
+    Note over P: Skill(draft-prd): interview de producto
+    P-->>User: PRD propuesto (What/Why — problema, objetivos, requisitos)
+    User-->>P: review PRD
+    alt User pide ajustes al PRD
+        P->>P: itera PRD (puede re-invocar researcher)
+        P-->>User: PRD revisado
     end
-    User->>P: APROBADO
-    P->>S: emitir Constitution + Workflow + skeletons de Tasks
-    S->>FS: constitution.md, workflow.md, tasks/*.md, agents/*.md, skills/**, hooks/*, commands/*
+    User->>P: Approve PRD (Gate 1)
+    Note over P: Skill(draft-rfc): interview t&eacute;cnico
+    Note over P: Skill(propose-agents): RFC §8 declaraci&oacute;n POA
+    P-->>User: RFC propuesto (How — arquitectura + granularidad + Tasks + declaraci&oacute;n POA)
+    User-->>P: review RFC (granularidad ok? §7 tasks ok? §8 POA completo?)
+    alt User pide ajustes al RFC
+        P->>P: itera RFC
+        P-->>User: RFC revisado
+    end
+    User->>P: Approve RFC (Gate 2)
+    Note over P: Skill(plan-workflow): deriva workflow.md desde RFC §7+§8
+    P->>S: emitir prd.md + rfc.md + workflow.md + constitution.md + skeletons
+    S->>FS: prd.md, rfc.md, workflow.md, constitution.md, tasks/*.md, agents/*.md, skills/**, hooks/*, commands/*
     S-->>User: bootstrap completo
 ```
 
-### Detalle de la review
+### Detalle de Gate 1 — PRD review
 
-El User responde tres preguntas explícitas:
+El User evalúa el PRD respondiendo:
 
-1. **Granularidad** — ¿una Task = una página/endpoint/etapa/función? ¿Es el nivel correcto para este proyecto?
-2. **Tasks** — ¿la lista cubre el alcance? ¿Faltan o sobran?
-3. **Agents** — ¿los agents de dominio propuestos son suficientes? ¿Cada uno tiene el MCP/skill correcto?
+1. **Problema** — ¿captura el problema correcto? ¿Las métricas de éxito son las adecuadas?
+2. **Requisitos** — ¿el P0/P1/P2 está bien priorizado? ¿Falta o sobra algo en scope?
+3. **Usuarios** — ¿el segmento y las user stories son correctos?
 
-Si cualquiera devuelve "no", Planner re-itera. Solo con "APROBADO" en las tres pasa a Specter.
+Si cualquiera requiere ajuste, Planner re-itera el PRD. Solo con `Approve PRD` pasa a Gate 2.
+
+### Detalle de Gate 2 — RFC review
+
+El User evalúa el RFC respondiendo:
+
+1. **Granularidad** (RFC §7) — ¿una Task = la unidad correcta para este proyecto? ¿La lista cubre el alcance?
+2. **Diseño** (RFC §4-§6) — ¿la arquitectura es la correcta? ¿Las alternativas están documentadas?
+3. **Declaración POA** (RFC §8) — ¿los agents/skills/hooks/commands propuestos son suficientes? ¿Tienen el modelo/permisos correctos?
+
+Si cualquiera requiere ajuste, Planner re-itera el RFC. Solo con `Approve RFC` pasa a materialización.
 
 ---
 

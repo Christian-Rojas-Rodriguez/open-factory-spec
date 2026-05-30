@@ -11,7 +11,7 @@
 <p><strong>An agent factory for Claude Code.</strong><br />
 Scaffold a self-consistent <code>.claude/</code> directory — 11 agents, 8 skills, and a 5-level contract system — with one command.</p>
 
-[![npm](https://img.shields.io/npm/v/@open-factory/cli?style=flat-square&label=npm)](https://www.npmjs.com/package/@open-factory/cli)
+[![npm](https://img.shields.io/npm/v/opftr?style=flat-square&label=npm)](https://www.npmjs.com/package/opftr)
 [![License](https://img.shields.io/github/license/Christian-Rojas-Rodriguez/open-factory-spec?style=flat-square)](LICENSE)
 [![Node](https://img.shields.io/badge/node-%E2%89%A520-brightgreen?style=flat-square)](https://nodejs.org)
 
@@ -66,7 +66,7 @@ You: /task-run 0001
 In your target project:
 
 ```bash
-npx @open-factory/cli init
+npx opftr init
 ```
 
 That drops a ready-to-use `.claude/` and `CLAUDE.md` into the current directory.  
@@ -152,7 +152,7 @@ open-factory-spec/
 │   └── settings.json           ← hook registry
 ├── CLAUDE.md                   ← project memory loaded by Claude Code
 └── packages/
-    └── cli/                    ← @open-factory/cli (zero runtime deps)
+    └── cli/                    ← opftr (zero runtime deps)
         ├── src/
         ├── scripts/sync-templates.mjs
         └── templates/          ← synced snapshot of .claude/ + CLAUDE.md
