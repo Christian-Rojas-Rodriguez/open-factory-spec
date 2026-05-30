@@ -24,13 +24,14 @@ Derive questions from the template sections. For each section where context is m
 | Section | Key question to resolve |
 |---|---|
 | §1 TL;DR | ¿Cuál es el resultado en una línea para el usuario? |
-| §2 Problema | ¿Qué pain/gap motiva esto? ¿Qué evidencia existe? |
-| §3 Objetivos | ¿Cómo se ve el éxito? ¿Qué no debería empeorar? |
-| §4 Usuarios | ¿Quién es el usuario primario? ¿Hay usuarios secundarios? |
-| §5 Requisitos | ¿Qué es no-negociable (P0)? ¿Qué puede esperar (P1/P2)? |
-| §6 UX | ¿Hay flujos conocidos, wireframes o productos de referencia? |
-| §7 Dependencias | ¿Qué sistemas o equipos externos toca esto? |
-| §8 Rollout | ¿Fases? ¿Feature flags? ¿Corte duro? |
+| §2 Vision y Estrategia | ¿A qué período/objetivo del roadmap se alinea esto? ¿Qué dimensiones de negocio impacta? |
+| §3 Contexto/Problema | ¿Qué pain/gap motiva esto? ¿Cómo está el estado actual? ¿Qué evidencia existe? |
+| §4 Usuarios | ¿Quién es el usuario primario? ¿Rol, necesidad, frecuencia de uso? ¿Hay secundarios? |
+| §5 Objetivos | ¿Cómo se ve el éxito? ¿Qué no debería empeorar? |
+| §6 Requisitos | ¿Qué es no-negociable (P0)? ¿Qué puede esperar (P1/P2)? |
+| §7 UX | ¿Hay flujos conocidos, wireframes o productos de referencia? |
+| §8 Dependencias | ¿Qué sistemas o equipos externos toca esto? |
+| §9 Rollout | ¿Fases? ¿Feature flags? ¿Corte duro? |
 
 ## Output
 
@@ -44,7 +45,7 @@ status: draft
 
 # PRD: <title>
 ...
-## §9. Preguntas abiertas
+## §10. Preguntas Abiertas
 - [ ] <anything unresolved>
 ```
 
