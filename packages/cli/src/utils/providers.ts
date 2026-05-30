@@ -8,6 +8,8 @@ export interface Provider {
   memoryFile: string;
   /** CLI binary to open the tool after scaffolding. */
   toolCommand: string;
+  /** Subdirectory in templates/ that holds this provider's agent files. Empty = no dedicated dir. */
+  templateDir: string;
 }
 
 export const PROVIDERS: Provider[] = [
@@ -17,6 +19,7 @@ export const PROVIDERS: Provider[] = [
     toolName: "Claude Code",
     memoryFile: "CLAUDE.md",
     toolCommand: "claude",
+    templateDir: ".claude",
   },
   {
     id: "openai",
@@ -24,6 +27,7 @@ export const PROVIDERS: Provider[] = [
     toolName: "Codex CLI",
     memoryFile: "AGENTS.md",
     toolCommand: "codex",
+    templateDir: "",
   },
   {
     id: "opencode",
@@ -31,6 +35,7 @@ export const PROVIDERS: Provider[] = [
     toolName: "OpenCode",
     memoryFile: "AGENTS.md",
     toolCommand: "opencode",
+    templateDir: ".opencode",
   },
   {
     id: "gemini",
@@ -38,6 +43,7 @@ export const PROVIDERS: Provider[] = [
     toolName: "Gemini CLI",
     memoryFile: "GEMINI.md",
     toolCommand: "gemini",
+    templateDir: ".gemini",
   },
 ];
 

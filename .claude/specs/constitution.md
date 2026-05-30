@@ -27,9 +27,14 @@
 
 ### 2.3 Granularidad y workflow
 
-9. **La granularidad se decide en Bootstrap, no en spec-cycle.** El agente `planner` la fija al inicio del proyecto y el User la aprueba antes de materializar nada. Curator/Specter NO la deciden; la heredan.
-10. **Una Task = una Spec.** Si una Task pide múltiples specs, está mal granularizada y debe descomponerse.
-11. **Workflow es el único artefacto que declara qué agents/skills/hooks/commands/MCPs necesita el proyecto.** Crear un componente nuevo sin pasar por Workflow es deuda técnica.
+9. **La granularidad se decide en Bootstrap, no en spec-cycle.** Específicamente, se fija en el **RFC** (§7 Granularidad), y el User la aprueba en el gate de RFC antes de que `planner` derive el Workflow. Curator/Specter NO la deciden; la heredan del Workflow derivado.
+10. **Bootstrap se conduce como interview en dos etapas: PRD → RFC.**
+    - El **PRD** (`.claude/specs/prd.md`) captura What y Why — el problema, los objetivos y los requisitos en términos de producto/negocio. Revisado y aprobado por el User en Gate 1.
+    - El **RFC** (`.claude/specs/rfc.md`) captura How — arquitectura, trade-offs, granularidad, descomposición en Tasks y declaración POA (§8). Revisado y aprobado por el User en Gate 2.
+    - `workflow.md` es **derivado del RFC** por `plan-workflow` una vez aprobado. Sigue siendo el único declarante soberano de componentes POA en tiempo de ejecución (cláusula 11 sin cambios).
+    - Los tres artefactos (`prd.md`, `rfc.md`, `workflow.md`) se commitean juntos al cierre del Bootstrap.
+11. **Una Task = una Spec.** Si una Task pide múltiples specs, está mal granularizada y debe descomponerse.
+12. **Workflow es el único artefacto que declara qué agents/skills/hooks/commands/MCPs necesita el proyecto.** Crear un componente nuevo sin pasar por Workflow es deuda técnica. (`workflow.md` es derivado del RFC; la fuente canónica de revisión humana es el RFC, pero el declarante en tiempo de ejecución es siempre `workflow.md`.)
 
 ### 2.4 Invocación y descubrimiento
 
@@ -87,3 +92,11 @@ Cambiar este archivo requiere:
 1. PR con justificación explícita por cada cláusula tocada.
 2. Aprobación humana (no se delega a Auditor — la constitution está por encima del contrato Spec).
 3. Si la cláusula afecta a algún Agent/Skill/Hook existente, las Specs correspondientes deben bumpear major.
+
+### Enmienda 2026-05-30 — Bootstrap PRD → RFC
+
+**Cláusulas modificadas**: §2.3.9, §2.3.10, §2.3.11 (renumerada a 12).
+
+**Justificación**: el Bootstrap original producía un único `workflow.md` que mezclaba rationale de producto, diseño técnico, granularidad y declaración POA — difícil de revisar y sin separación de concerns. La enmienda introduce dos artefactos de revisión humana (PRD y RFC) antes de derivar `workflow.md`, manteniendo la soberanía del Workflow en tiempo de ejecución intacta (cláusula 12 = ex-11).
+
+**Impacto en specs**: Tasks 0007-0009 (planner, plan-workflow, propose-agents) y Task 0024 (factory-init) requieren bump major al materializarse. Se agregan Tasks 0030 (draft-prd) y 0031 (draft-rfc) al Workflow.

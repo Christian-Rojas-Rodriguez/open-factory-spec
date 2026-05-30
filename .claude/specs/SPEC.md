@@ -42,11 +42,13 @@ POA (Programación Orientada a Agentes) modela las primitivas ejecutables como o
 
 | Artefacto | Archivo | Rol |
 |---|---|---|
-| `Bootstrap` | (operacional, vía Planner) | Fase única que produce Constitution + Workflow |
+| `Bootstrap` | (operacional, vía Planner) | Fase única que produce PRD + RFC + Workflow derivado |
+| `PRD` | `.claude/specs/prd.md` | What/Why del proyecto — revisado y aprobado por el User en Gate 1 |
+| `RFC` | `.claude/specs/rfc.md` | How + granularidad + descomposición en Tasks + declaración POA — revisado y aprobado por el User en Gate 2 |
 | `Constitution` | `.claude/specs/constitution.md` | Principios no negociables |
-| `Workflow` | `.claude/specs/workflow.md` | Granularidad + Tasks + declaración POA |
+| `Workflow` | `.claude/specs/workflow.md` | Granularidad + Tasks + declaración POA **(derivado del RFC)** — declarante soberano en tiempo de ejecución |
 | `Task` | `.claude/specs/tasks/<id>-<slug>.md` | Unidad atómica con Spec embebida |
-| `Spec` | (dentro del archivo de Task) | Contrato What/Why/How versionado |
+| `Spec` | (dentro del archivo de Task) | Contrato What/Why/How versionado (What/Why trazan al PRD; How traza al RFC) |
 | `TestSuite` | `tests/<level>/<id>__*.test.*` | Derivada del Spec, escrita por QA |
 
 ### 2.3 Invariantes derivados
@@ -71,9 +73,14 @@ L2  Task          unidad atómica; 1 Task = 1 Spec
 L3  Spec          contrato versionado What/Why/How
 ```
 
-**Bootstrap** es operacional: ocurre una vez al inicio del proyecto y se re-corre cuando el alcance cambia significativamente. Lo ejecuta `planner` con review explícita del User (UC-1). No produce un archivo `bootstrap.md` propio: deja como evidencia la firma del User en el commit que crea Constitution + Workflow.
+**Bootstrap** es operacional: ocurre una vez al inicio del proyecto y se re-corre cuando el alcance cambia significativamente. Lo ejecuta `planner` con dos gates de review explícita del User (UC-1):
 
-**El Workflow es soberano**: ningún Agent/Skill/Command/Hook puede existir si no está declarado allí. Para agregar uno nuevo se corre UC-4 (`/agent-new` o equivalente) que es un mini-Bootstrap incremental.
+- **Gate 1 — PRD** (`prd.md`): What/Why del proyecto. Sin PRD aprobado no se empieza el RFC.
+- **Gate 2 — RFC** (`rfc.md`): How + granularidad + Task decomposition + declaración POA. Sin RFC aprobado no se deriva el Workflow ni se escribe nada a disco.
+
+Bootstrap produce tres artefactos que se commitean juntos: `prd.md`, `rfc.md`, `workflow.md` (derivado del RFC) + `constitution.md` + skeletons de Tasks/Agents/Skills/Hooks/Commands.
+
+**El Workflow es soberano**: ningún Agent/Skill/Command/Hook puede existir si no está declarado allí. `workflow.md` es derivado del RFC, pero es el declarante en tiempo de ejecución — los hooks y agentes leen `workflow.md`, no el RFC directamente. Para agregar un componente nuevo se corre UC-4 (`/agent-new` o equivalente) que es un mini-Bootstrap incremental.
 
 ---
 
@@ -85,12 +92,22 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 
 #### `planner` — `orange`
 
-- **objective**: definir Workflow del proyecto (What/Why de negocio + How técnico), fijar la granularidad, descomponer en Tasks, declarar agents/skills/hooks/commands/MCPs necesarios.
-- **tools**: `Read`, `Agent(researcher)`, `Skill(plan-workflow)`, `Skill(propose-agents)`.
+- **objective**: conducir el Bootstrap en dos etapas (PRD → RFC), derivar `workflow.md` y coordinar la materialización por `specter`.
+- **tools**: `Read`, `Agent(researcher)`, `Skill(draft-prd)`, `Skill(draft-rfc)`, `Skill(plan-workflow)`, `Skill(propose-agents)`, `Skill(research-topic)`.
 - **permissionMode**: `plan` (no escribe; solo propone).
 - **hooks**: `Stop` con prompt-hook que valida que la propuesta tenga la review del User antes de cerrar.
 - **memory**: `project`.
 - **description** (borrador): `Use proactively when the user asks to plan or design a project workflow, define what/why/how, decide task granularity, or enumerate which agents/skills/hooks/commands a project needs. Bootstrap-layer agent.`
+
+#### Skills Bootstrap
+
+| Skill | Task | Rol |
+|---|---|---|
+| `draft-prd` | 0030 | Conduce el interview de PRD (What/Why) y renderiza `prd.md`. Gate 1 de Bootstrap. |
+| `draft-rfc` | 0031 | Conduce el interview técnico (How + granularidad + POA) y renderiza `rfc.md`. Gate 2 de Bootstrap. |
+| `plan-workflow` | 0008 | Deriva `workflow.md` (tablas POA + task list + grafo) desde el RFC aprobado. |
+| `propose-agents` | 0009 | Catálogo de agents/skills/hooks/commands con modelo/esfuerzo/permisos; invocado desde `draft-rfc` para §8. |
+| `research-topic` | 0010 | Survey de dominio + stack; invocado desde `researcher` y por `planner` antes del PRD interview. |
 
 ### 4.2 Specify (`blue`)
 
@@ -366,7 +383,7 @@ Orden recomendado (ver [`workflow.md`](./workflow.md) §3 para detalle por Task)
 
 1. **Foundation** (0001-0004) — settings + 4 hooks. Sin esto la factory no aplica nada.
 2. **Transversales** (0005-0006) — researcher + tl. Sin tl no se puede orquestar; sin researcher no hay input para los demás.
-3. **Bootstrap layer** (0007-0010) — planner + 3 skills. Habilita correr UC-1.
+3. **Bootstrap layer** (0007-0010, 0030-0031) — planner + 5 skills (`draft-prd`, `draft-rfc`, `plan-workflow`, `propose-agents`, `research-topic`). Habilita correr UC-1 con flujo PRD → RFC → Workflow derivado.
 4. **Specify layer** (0011-0014) — curator + specter + 2 skills. Habilita correr el inicio de UC-2.
 5. **Plan layer** (0015-0017) — qa + 2 skills. Sin qa no hay tests, sin tests Coder no puede empezar.
 6. **Implement layer** (0018-0019) — coder + reviewer.
@@ -376,7 +393,7 @@ Orden recomendado (ver [`workflow.md`](./workflow.md) §3 para detalle por Task)
 Hitos:
 
 - **Hito A**: Foundation + Transversales (0001-0006) listos a mano. **Recursión rota**: la factory ya puede empezar a usarse a sí misma desde acá.
-- **Hito B**: Hito A + Bootstrap + Specify (hasta 0014). Se puede correr UC-1 completo y crear Specs reales.
+- **Hito B**: Hito A + Bootstrap + Specify (hasta 0014, más 0030-0031). Se puede correr UC-1 completo con flujo PRD → RFC → Workflow derivado y crear Specs reales.
 - **Hito C**: Hito B + Plan + Implement (hasta 0019). Se puede correr UC-2 hasta el código.
 - **Hito D**: Hito C + Validate + Commands (hasta 0029). UC-1..UC-4 todos funcionales. Factory completa.
 

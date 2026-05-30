@@ -1,6 +1,8 @@
 # Workflow — open-factory-spec
 
-> Este Workflow describe **cómo se construye la propia factory**. Es el resultado del Bootstrap del proyecto: una vez aprobado por el User, todas las Tasks listadas acá se materializan en `.claude/specs/tasks/`.
+> Este Workflow describe **cómo se construye la propia factory**. Es un artefacto **derivado del RFC** (`.claude/specs/rfc.md`) por la skill `plan-workflow`. Una vez que el User aprueba el RFC en Gate 2 del Bootstrap, `workflow.md` se deriva y todas las Tasks listadas acá se materializan en `.claude/specs/tasks/`.
+>
+> **Artefactos de Bootstrap**: `prd.md` (Gate 1 — What/Why) → `rfc.md` (Gate 2 — How + granularidad + declaración POA) → **este archivo** (declarante soberano en tiempo de ejecución).
 
 ## 1. Granularidad elegida
 
@@ -34,18 +36,20 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 | 10 | `pr` | Validate | `red` | 0021 |
 | 11 | `auditor` | Validate | `red` | 0022 |
 
-### 2.2 Skills declaradas (8)
+### 2.2 Skills declaradas (10)
 
 | # | Skill | Usada por | Task | `disable-model-invocation` |
 |---|---|---|---|---|
 | 1 | `research-topic` | researcher | 0010 | no |
-| 2 | `plan-workflow` | planner | 0008 | sí |
-| 3 | `propose-agents` | planner | 0009 | sí |
-| 4 | `polish-idea` | curator | 0012 | no |
-| 5 | `write-spec` | specter | 0014 | sí |
-| 6 | `spec-lint` | qa | 0016 | sí |
-| 7 | `author-tests` | qa | 0017 | sí |
-| 8 | `verify-contract` | auditor | 0023 | sí |
+| 2 | `draft-prd` | planner | 0030 | sí |
+| 3 | `draft-rfc` | planner | 0031 | sí |
+| 4 | `plan-workflow` | planner | 0008 | sí — deriva `workflow.md` desde el RFC aprobado |
+| 5 | `propose-agents` | planner (vía draft-rfc) | 0009 | sí |
+| 6 | `polish-idea` | curator | 0012 | no |
+| 7 | `write-spec` | specter | 0014 | sí |
+| 8 | `spec-lint` | qa | 0016 | sí |
+| 9 | `author-tests` | qa | 0017 | sí |
+| 10 | `verify-contract` | auditor | 0023 | sí |
 
 ### 2.3 Hooks declarados (4)
 
@@ -87,12 +91,14 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 - **0005** — Agent `researcher` (cyan). Tools: `Read`, `Grep`, `Glob`, `WebFetch`. `permissionMode: plan`. **✓ done (v0.1.0)** — see [tasks/0005-researcher-agent.md](tasks/0005-researcher-agent.md).
 - **0006** — Agent `tl` (pink). Tools: `Agent(*)`, `Read`. `permissionMode: default`. Sin `Agent(*)` ningún UC se puede orquestar.
 
-### Bootstrap layer (0007-0010)
+### Bootstrap layer (0007-0010, 0030-0031)
 
-- **0007** — Agent `planner` (orange). Tools: `Read`, `Agent(researcher)`, `Skill(plan-workflow)`, `Skill(propose-agents)`.
-- **0008** — Skill `plan-workflow` (`disable-model-invocation: true`). Genera Workflow con What/Why/How + granularidad.
-- **0009** — Skill `propose-agents` (`disable-model-invocation: true`). Catálogo de agents/skills/hooks/commands/MCPs.
+- **0007** — Agent `planner` (orange). Tools: `Read`, `Agent(researcher)`, `Skill(draft-prd)`, `Skill(draft-rfc)`, `Skill(plan-workflow)`, `Skill(propose-agents)`, `Skill(research-topic)`. Conduce el Bootstrap en dos etapas con gates PRD y RFC.
+- **0008** — Skill `plan-workflow` (`disable-model-invocation: true`). Deriva `workflow.md` **desde el RFC aprobado** (§7 + §8). Ya no genera el Workflow desde cero; traduce RFC → workflow.md.
+- **0009** — Skill `propose-agents` (`disable-model-invocation: true`). Catálogo de agents/skills/hooks/commands/MCPs. Invocada desde `draft-rfc` al completar RFC §8.
 - **0010** — Skill `research-topic`. Templating para research de dominio + stack.
+- **0030** — Skill `draft-prd` (`disable-model-invocation: true`). Interview de producto → renderiza `prd.md`. Gate 1 del Bootstrap.
+- **0031** — Skill `draft-rfc` (`disable-model-invocation: true`). Interview técnico → renderiza `rfc.md` (§7 granularidad + §8 declaración POA obligatorios). Gate 2 del Bootstrap.
 
 ### Specify layer (0011-0014)
 
@@ -156,12 +162,16 @@ graph LR
     Au[0022 auditor]
     S23[0023 verify-contract]
     Cmds[0024-0029 commands]
+    S30[0030 draft-prd]
+    S31[0031 draft-rfc]
 
     F --> H2 --> H3 --> H4
     H2 --> R --> T
     T --> P
+    S30 --> P
+    S31 --> P
     S8 --> P
-    S9 --> P
+    S9 --> S31
     S10 --> R
     P --> Cu
     S12 --> Cu
