@@ -29,12 +29,12 @@ packages/            # CLI package (opftr)
 ## Agent pipeline
 
 ```
-researcher → planner → curator → specter → qa → coder → reviewer → tester → pr → auditor
+researcher → planner (PRD draft → Gate 1 → RFC draft → Gate 2) → specter → qa → coder → reviewer → tester → pr → auditor
 ```
 
 - `tl` orchestrates the full cycle end-to-end.
-- Each agent receives only the output of the previous one.
-- Approval checkpoints (workflow design, PR merge) require explicit user `APPROVED`.
+- Bootstrap (UC-1) has **two review gates**: PRD draft (`drafts/prd.md`) then RFC draft (`drafts/rfc.md`). The user opens each file, edits it, and approves before the next stage. Nothing is written to `workflow.md` or task specs until both gates pass.
+- Approval checkpoints require explicit user reply (`approve prd` / `approve rfc` / `APPROVED`).
 
 ## Agents and their roles
 

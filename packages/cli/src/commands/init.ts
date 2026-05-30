@@ -240,7 +240,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
     if (p.src === "") {
       await writeFile(
         p.dst,
-        JSON.stringify({ version: "0.1.2", phases }, null, 2) + "\n",
+        JSON.stringify({ version: "0.1.3", phases }, null, 2) + "\n",
         "utf8",
       );
     } else {

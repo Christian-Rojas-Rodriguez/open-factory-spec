@@ -14,24 +14,24 @@ Drive UC-1 end-to-end with two review gates (PRD then RFC). Project description:
 
 1. Use the `tl` agent to orchestrate the cycle.
 2. Have `tl` invoke `researcher` to survey the domain and stack implied by the description.
-3. Hand off to `planner`. Planner runs `Skill(draft-prd)` to conduct the product interview.
-4. **Gate 1 — PRD review.** Stop and surface the PRD proposal. Ask: `Approve PRD? (yes / revise / cancel)`. Do not write any files yet. If `revise`, Planner iterates.
-5. On PRD `yes`, Planner runs `Skill(draft-rfc)` to conduct the technical interview (using the approved PRD as input). Also invokes `Skill(propose-agents)` for the RFC §8 Declaración POA.
-6. **Gate 2 — RFC review.** Stop and surface the RFC proposal (verify §7 Granularidad and §8 Declaración POA are complete). Ask: `Approve RFC? (yes / revise / cancel)`. Do not write any files yet. If `revise`, Planner iterates.
-7. On RFC `yes`, Planner runs `Skill(plan-workflow)` to derive `workflow.md` from the RFC (§7 + §8).
-8. Hand off to `specter` to materialize:
-   - `.claude/specs/prd.md`
-   - `.claude/specs/rfc.md`
+3. Hand off to `planner`. Planner runs `Skill(draft-prd)` to conduct the product interview, then hands content to `specter`.
+4. **Gate 1 — PRD draft.** `specter` writes `.claude/specs/drafts/prd.md` (`status: draft`). `tl` surfaces: _"Open `.claude/specs/drafts/prd.md`, review/edit it. Reply 'approve prd', 'revise: \<feedback\>', or 'cancel'."_ **No other files are written.** If `revise`, Planner updates the draft in-place and re-surfaces.
+5. On PRD `approve`, Planner runs `Skill(draft-rfc)` using the draft as input. Also invokes `Skill(propose-agents)` for RFC §8. Hands content to `specter`.
+6. **Gate 2 — RFC draft.** `specter` writes `.claude/specs/drafts/rfc.md` (`status: draft`). `tl` surfaces: _"Open `.claude/specs/drafts/rfc.md`, review/edit it (§7 Granularidad and §8 Declaración POA must be complete). Reply 'approve rfc', 'revise: \<feedback\>', or 'cancel'."_ **No other files are written.**
+7. On RFC `approve`: `specter` promotes both drafts (`drafts/prd.md` → `prd.md`, `drafts/rfc.md` → `rfc.md`, `status: approved`).
+8. Planner runs `Skill(plan-workflow)` to derive `workflow.md` from the approved `rfc.md` (§7 + §8).
+9. `specter` materializes:
    - `.claude/specs/workflow.md` (derived from RFC)
    - `.claude/specs/constitution.md`
    - Per-Task skeletons under `.claude/specs/tasks/`
    - Agent/skill/hook/command skeletons
-9. Return the list of files created and the recommended next step (`/task-run 0001`).
+10. Return the list of files created and the recommended next step (`/task-run 0001`).
 
 ## Acceptance
 
-- No file is written before **both** PRD and RFC are approved by the User.
+- The ONLY files written before Gate 1 approval: `.claude/specs/drafts/prd.md`.
+- The ONLY files written before Gate 2 approval: `.claude/specs/drafts/rfc.md`.
+- `workflow.md`, `constitution.md`, and all task specs are written ONLY after both gates pass.
 - Granularity is fixed in the RFC (§7) and not re-decided by downstream agents.
 - RFC §8 (Declaración POA) is complete before `plan-workflow` runs.
 - All declared components appear in `Workflow.declared*`.
-- `prd.md` and `rfc.md` are committed alongside `workflow.md` and `constitution.md`.

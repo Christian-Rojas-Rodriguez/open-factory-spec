@@ -19,49 +19,60 @@ sequenceDiagram
     User->>TL: /factory-init "ML training pipeline"
     TL->>R: investiga dominio + stack + restricciones
     R-->>TL: hallazgos
-    TL->>P: conduce Bootstrap (PRD → RFC)
+    TL->>P: conduce Bootstrap — Gate 1: PRD
     Note over P: Skill(draft-prd): interview de producto
-    P-->>User: PRD propuesto (What/Why — problema, objetivos, requisitos)
-    User-->>P: review PRD
-    alt User pide ajustes al PRD
-        P->>P: itera PRD (puede re-invocar researcher)
-        P-->>User: PRD revisado
+    P->>S: contenido del PRD
+    S->>FS: ESCRIBE drafts/prd.md (status: draft)
+    TL-->>User: "Abr&iacute; .claude/specs/drafts/prd.md, revis&aacute;lo/edit&aacute;lo.<br/>Reply: approve prd | revise: &lt;feedback&gt; | cancel"
+    User-->>TL: review (edita el archivo directamente)
+    alt User pide ajustes
+        TL->>P: revise con feedback
+        P->>S: PRD actualizado
+        S->>FS: reescribe drafts/prd.md
+        TL-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
     end
-    User->>P: Approve PRD (Gate 1)
+    User->>TL: approve prd (Gate 1 ✓)
+    TL->>P: conduce Bootstrap — Gate 2: RFC
     Note over P: Skill(draft-rfc): interview t&eacute;cnico
     Note over P: Skill(propose-agents): RFC §8 declaraci&oacute;n POA
-    P-->>User: RFC propuesto (How — arquitectura + granularidad + Tasks + declaraci&oacute;n POA)
-    User-->>P: review RFC (granularidad ok? §7 tasks ok? §8 POA completo?)
-    alt User pide ajustes al RFC
-        P->>P: itera RFC
-        P-->>User: RFC revisado
+    P->>S: contenido del RFC (§7 + §8 completos)
+    S->>FS: ESCRIBE drafts/rfc.md (status: draft)
+    TL-->>User: "Abr&iacute; .claude/specs/drafts/rfc.md, revis&aacute;lo.<br/>(§7 Granularidad y §8 POA deben estar completos)<br/>Reply: approve rfc | revise: &lt;feedback&gt; | cancel"
+    User-->>TL: review (edita el archivo directamente)
+    alt User pide ajustes
+        TL->>P: revise con feedback
+        P->>S: RFC actualizado
+        S->>FS: reescribe drafts/rfc.md
+        TL-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
     end
-    User->>P: Approve RFC (Gate 2)
-    Note over P: Skill(plan-workflow): deriva workflow.md desde RFC §7+§8
-    P->>S: emitir prd.md + rfc.md + workflow.md + constitution.md + skeletons
-    S->>FS: prd.md, rfc.md, workflow.md, constitution.md, tasks/*.md, agents/*.md, skills/**, hooks/*, commands/*
-    S-->>User: bootstrap completo
+    User->>TL: approve rfc (Gate 2 ✓)
+    S->>FS: promueve drafts/prd.md → prd.md (status: approved)
+    S->>FS: promueve drafts/rfc.md → rfc.md (status: approved)
+    Note over P: Skill(plan-workflow): deriva workflow.md desde rfc.md §7+§8
+    P->>S: workflow.md + constitution.md + skeletons
+    S->>FS: workflow.md, constitution.md, tasks/*.md, agents/*.md, skills/**, hooks/*, commands/*
+    S-->>User: bootstrap completo — next: /task-run 0001
 ```
 
-### Detalle de Gate 1 — PRD review
+### Detalle de Gate 1 — PRD review (en editor)
 
-El User evalúa el PRD respondiendo:
+El User abre `.claude/specs/drafts/prd.md` y evalúa/edita directamente:
 
 1. **Problema** — ¿captura el problema correcto? ¿Las métricas de éxito son las adecuadas?
-2. **Requisitos** — ¿el P0/P1/P2 está bien priorizado? ¿Falta o sobra algo en scope?
+2. **Requisitos** — ¿el P0/P1/P2 está bien priorizado? ¿Falta o sobra algo?
 3. **Usuarios** — ¿el segmento y las user stories son correctos?
 
-Si cualquiera requiere ajuste, Planner re-itera el PRD. Solo con `Approve PRD` pasa a Gate 2.
+Responde "revise: \<feedback\>" para que Planner actualice el archivo, o "approve prd" para pasar a Gate 2. Solo `approve prd` desbloquea el RFC.
 
-### Detalle de Gate 2 — RFC review
+### Detalle de Gate 2 — RFC review (en editor)
 
-El User evalúa el RFC respondiendo:
+El User abre `.claude/specs/drafts/rfc.md` y evalúa/edita directamente:
 
-1. **Granularidad** (RFC §7) — ¿una Task = la unidad correcta para este proyecto? ¿La lista cubre el alcance?
-2. **Diseño** (RFC §4-§6) — ¿la arquitectura es la correcta? ¿Las alternativas están documentadas?
-3. **Declaración POA** (RFC §8) — ¿los agents/skills/hooks/commands propuestos son suficientes? ¿Tienen el modelo/permisos correctos?
+1. **Granularidad** (RFC §7) — ¿una Task = la unidad correcta? ¿La lista cubre el alcance?
+2. **Diseño** (RFC §4-§6) — ¿la arquitectura es correcta? ¿Las alternativas están documentadas?
+3. **Declaración POA** (RFC §8) — ¿agents/skills/hooks/commands suficientes? ¿Modelo/permisos correctos?
 
-Si cualquiera requiere ajuste, Planner re-itera el RFC. Solo con `Approve RFC` pasa a materialización.
+Solo `approve rfc` desbloquea la materialización de `workflow.md`, `constitution.md` y task specs.
 
 ---
 

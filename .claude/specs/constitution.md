@@ -28,11 +28,13 @@
 ### 2.3 Granularidad y workflow
 
 9. **La granularidad se decide en Bootstrap, no en spec-cycle.** Específicamente, se fija en el **RFC** (§7 Granularidad), y el User la aprueba en el gate de RFC antes de que `planner` derive el Workflow. Curator/Specter NO la deciden; la heredan del Workflow derivado.
-10. **Bootstrap se conduce como interview en dos etapas: PRD → RFC.**
-    - El **PRD** (`.claude/specs/prd.md`) captura What y Why — el problema, los objetivos y los requisitos en términos de producto/negocio. Revisado y aprobado por el User en Gate 1.
-    - El **RFC** (`.claude/specs/rfc.md`) captura How — arquitectura, trade-offs, granularidad, descomposición en Tasks y declaración POA (§8). Revisado y aprobado por el User en Gate 2.
-    - `workflow.md` es **derivado del RFC** por `plan-workflow` una vez aprobado. Sigue siendo el único declarante soberano de componentes POA en tiempo de ejecución (cláusula 11 sin cambios).
-    - Los tres artefactos (`prd.md`, `rfc.md`, `workflow.md`) se commitean juntos al cierre del Bootstrap.
+10. **Bootstrap se conduce como interview en dos etapas: PRD → RFC. Cada etapa escribe un borrador en disco para revisión en editor.**
+    - El **PRD borrador** se escribe en `.claude/specs/drafts/prd.md` (`status: draft`). El User lo abre en su editor, lo edita directamente y aprueba con "approve prd" (Gate 1).
+    - El **RFC borrador** se escribe en `.claude/specs/drafts/rfc.md` (`status: draft`). El User lo abre, lo revisa (§7 Granularidad y §8 Declaración POA deben estar completos) y aprueba con "approve rfc" (Gate 2).
+    - Al aprobar cada gate, el borrador se **promueve** a `.claude/specs/prd.md` / `rfc.md` (`status: approved`).
+    - `workflow.md` es **derivado del RFC aprobado** por `plan-workflow`. Sigue siendo el único declarante soberano en tiempo de ejecución.
+    - **Hasta que ambos gates pasen**: lo único escrito son los borradores en `drafts/`. `workflow.md`, `constitution.md` y toda task spec se escriben SOLO después de Gate 2.
+    - Los artefactos finales (`prd.md`, `rfc.md`, `workflow.md`, `constitution.md`) se commitean juntos al cierre del Bootstrap.
 11. **Una Task = una Spec.** Si una Task pide múltiples specs, está mal granularizada y debe descomponerse.
 12. **Workflow es el único artefacto que declara qué agents/skills/hooks/commands/MCPs necesita el proyecto.** Crear un componente nuevo sin pasar por Workflow es deuda técnica. (`workflow.md` es derivado del RFC; la fuente canónica de revisión humana es el RFC, pero el declarante en tiempo de ejecución es siempre `workflow.md`.)
 
