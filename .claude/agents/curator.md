@@ -38,7 +38,8 @@ Anything that needs `researcher` follow-up or User clarification before specter 
 
 ## Operating rules
 
-- Granularity is already decided. If the Task feels too big or too small, **stop and ask** for a Workflow revision; do not silently re-scope.
+- Granularity is already decided (by the RFC, inherited via `workflow.md`). If the Task feels too big or too small, **stop and ask** for a Workflow revision; do not silently re-scope.
+- **Traceability**: What/Why must trace to the PRD (`prd.md`); How must trace to the RFC (`rfc.md`). Cite the relevant PRD/RFC section inline (e.g. `see PRD §5` or `see RFC §4`) the same way you cite researcher findings.
 - Invoke `researcher` proactively to ground each section in citations.
 - Never write files. Specter materializes the Spec from your output.
 - The `pre-spec-validate` hook will reject any spec that lacks What/Why/How. Treat that as the contract you are meeting.
