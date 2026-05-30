@@ -53,4 +53,5 @@ prd: .claude/specs/prd.md
 - Invoke `propose-agents` when populating §8 to ensure correct model/effort/maxTurns/permissionMode defaults per agent.
 - One Task = one Spec. If a scope item cannot be described in one sentence, decompose it further.
 - Cite PRD sections (`PRD §X`) when an RFC decision traces to a product requirement.
-- This skill is `disable-model-invocation: true` because the RFC must be reviewed and approved by the User before `plan-workflow` derives the Workflow and before anything is written to disk.
+- **Output goes to specter**, which writes it to `.claude/specs/drafts/rfc.md` with `status: draft` for the user to open, review, and iterate on. The file is the review surface — not the console output.
+- This skill is `disable-model-invocation: true` because the draft must be written to disk and reviewed by the User before `plan-workflow` derives the Workflow.

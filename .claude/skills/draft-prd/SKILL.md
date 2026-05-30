@@ -54,4 +54,5 @@ status: draft
 - Do not fabricate data, metrics, or personas. Leave the cell empty and add an `Open question` instead.
 - If the user's description already answers a section fully, skip that interview question.
 - Mark all sections attempted; an empty section with `TBD` is only allowed if paired with an explicit `Open question`.
-- This skill is `disable-model-invocation: true` because the final PRD must be reviewed and approved by the User before anything is written to disk.
+- **Output goes to specter**, which writes it to `.claude/specs/drafts/prd.md` with `status: draft` for the user to open, review, and iterate on. The file is the review surface — not the console output.
+- This skill is `disable-model-invocation: true` because the draft must be written to disk and reviewed by the User before anything else is written.

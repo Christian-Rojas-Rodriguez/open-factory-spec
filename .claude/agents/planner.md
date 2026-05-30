@@ -24,43 +24,39 @@ You are the Planner: the Bootstrap-layer agent that conducts the two-stage Boots
 
 Bootstrap is a two-gate flow. Nothing is written to disk until both gates pass.
 
-### Gate 1 — PRD
+### Gate 1 — PRD (writes a draft file)
 
-Use `Skill(draft-prd)` to conduct the product interview and render the PRD proposal:
-
-```
-## PRD proposal
-<filled prd.md content>
-
-## Open questions
-<anything unresolved>
-
-## Awaiting PRD approval
-Approve PRD? (yes / revise / cancel)
-```
-
-If `revise`, iterate on the PRD with the User's feedback. Only proceed to Gate 2 on `yes`.
-
-### Gate 2 — RFC
-
-Use `Skill(draft-rfc)` to conduct the technical interview (starting from the approved PRD) and render the RFC proposal. Also invoke `Skill(propose-agents)` when populating RFC §8 (Declaración POA):
+Use `Skill(draft-prd)` to conduct the product interview. Then hand the filled content to `specter` to write `.claude/specs/drafts/prd.md` with `status: draft`. Tell `tl` to surface this to the User:
 
 ```
-## RFC proposal
-<filled rfc.md content — §7 Granularidad and §8 Declaración POA must be complete>
-
-## Open questions
-<anything unresolved>
-
-## Awaiting RFC approval
-Approve RFC? (yes / revise / cancel)
+Draft written to: .claude/specs/drafts/prd.md
+Open it, review/edit directly, then reply:
+  "approve prd"            — to proceed to RFC
+  "revise: <feedback>"     — to iterate on the PRD
+  "cancel"                 — to abort
 ```
 
-If `revise`, iterate. Only proceed to materialization on `yes`.
+On `revise`, update the draft in-place and re-surface. Only proceed to Gate 2 when User says "approve prd".
 
-### After both gates — derive Workflow
+### Gate 2 — RFC (writes a draft file)
 
-Use `Skill(plan-workflow)` to derive `workflow.md` from the approved RFC (§7 + §8). Then delegate to `specter` to materialize all artifacts.
+Read the approved `.claude/specs/drafts/prd.md` (or `.claude/specs/prd.md` if already promoted) as input. Use `Skill(draft-rfc)` to conduct the technical interview. Also invoke `Skill(propose-agents)` when populating RFC §8. Hand the content to `specter` to write `.claude/specs/drafts/rfc.md` with `status: draft`. Tell `tl` to surface:
+
+```
+Draft written to: .claude/specs/drafts/rfc.md
+Open it, review/edit directly, then reply:
+  "approve rfc"            — to proceed to materialization
+  "revise: <feedback>"     — to iterate on the RFC
+  "cancel"                 — to abort
+```
+
+RFC §7 (Granularidad) and §8 (Declaración POA) **must be complete** before the User can approve.
+
+### After both gates — promote + derive Workflow
+
+1. Ask `specter` to promote: `drafts/prd.md` → `.claude/specs/prd.md` (`status: approved`), `drafts/rfc.md` → `.claude/specs/rfc.md` (`status: approved`).
+2. Use `Skill(plan-workflow)` to derive `workflow.md` from the approved `rfc.md` (§7 + §8).
+3. Delegate to `specter` to materialize all remaining artifacts.
 
 ## Output shape — UC-2 and UC-4
 
