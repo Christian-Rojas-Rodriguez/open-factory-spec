@@ -3,11 +3,13 @@
  * sync-templates.mjs — Dogfooding: copy the workspace's `.claude/` and `CLAUDE.md`
  * into `packages/cli/templates/` so the published package ships them as scaffolding source.
  *
- * Single source of truth is the workspace root. This script is idempotent and run
- * during `prepack` (before publish) and `build`. Committing the result is optional —
- * a CI check (later) can re-run this and fail if the working tree changes.
+ * Single source of truth is the workspace root. After the main sync, generic
+ * user-facing overrides from `packages/cli/template-overrides/` are applied on top,
+ * replacing project-specific files with starter templates appropriate for new users.
+ *
+ * This script is idempotent and run during `prepack` (before publish) and `build`.
  */
-import { mkdir, rm, readdir, readFile, writeFile, stat, chmod } from "node:fs/promises";
+import { mkdir, rm, readdir, readFile, writeFile, stat, chmod, unlink } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { resolve, dirname, relative, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,6 +18,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const cliRoot = resolve(__dirname, "..");
 const workspaceRoot = resolve(cliRoot, "..", "..");
 const templatesDir = resolve(cliRoot, "templates");
+const overridesDir = resolve(cliRoot, "template-overrides");
 
 /**
  * Allowlist of paths (relative to workspaceRoot) that get copied into templates/.
@@ -31,10 +34,22 @@ const GLOB_PREFIXES = ["AGENTS."];
 
 /**
  * Within `.claude/`, exclude these dirs/files even though they match the allowlist.
+ * These are project-specific or per-user artifacts that must not ship to new users.
  */
 const EXCLUDES_INSIDE_CLAUDE = new Set([
   "agent-memory-local", // per-user, gitignored
 ]);
+
+/**
+ * Files to delete from templates/ after the main sync, relative to templatesDir.
+ * These are project-specific opftr artifacts that get replaced by overrides or
+ * should simply not exist in a fresh user scaffold.
+ */
+const POST_SYNC_DELETIONS = [
+  ".claude/specs/prd.md",          // opftr's own approved PRD — user creates theirs via /factory-init
+  ".claude/specs/rfc.md",          // opftr's own approved RFC — user creates theirs via /factory-init
+  ".claude/specs/tasks/0005-researcher-agent.md", // opftr-specific task spec
+];
 
 async function main() {
   process.stdout.write(`Syncing templates from ${relative(cliRoot, workspaceRoot) || "."}\n`);
@@ -70,6 +85,52 @@ async function main() {
   }
 
   process.stdout.write(`\nSynced ${copied}, skipped ${skipped}.\n`);
+
+  // Remove project-specific files that must not ship to users.
+  let deleted = 0;
+  for (const rel of POST_SYNC_DELETIONS) {
+    const target = resolve(templatesDir, rel);
+    if (existsSync(target)) {
+      await unlink(target);
+      process.stdout.write(`  ${dim("del ")}  ${rel}\n`);
+      deleted += 1;
+    }
+  }
+  if (deleted > 0) {
+    process.stdout.write(`Removed ${deleted} project-specific file(s).\n`);
+  }
+
+  // Apply generic user-facing overrides on top of the synced files.
+  if (existsSync(overridesDir)) {
+    process.stdout.write(`\nApplying overrides from template-overrides/\n`);
+    let overridden = 0;
+    await applyOverrides(overridesDir, templatesDir, overridesDir, overridden);
+    // Count is tracked inside applyOverrides via side-effect logging; just signal done.
+    process.stdout.write(`Overrides applied.\n`);
+  }
+
+  process.stdout.write(`\nDone.\n`);
+}
+
+/**
+ * Copy everything from overridesDir into templatesDir, preserving relative paths.
+ */
+async function applyOverrides(from, toBase, overridesRoot, _count) {
+  const s = await stat(from);
+  if (s.isDirectory()) {
+    await mkdir(resolve(toBase, relative(overridesRoot, from)), { recursive: true });
+    const entries = await readdir(from, { withFileTypes: true });
+    for (const e of entries) {
+      await applyOverrides(join(from, e.name), toBase, overridesRoot, _count);
+    }
+  } else if (s.isFile()) {
+    const relPath = relative(overridesRoot, from);
+    const dest = resolve(toBase, relPath);
+    await mkdir(resolve(dest, ".."), { recursive: true });
+    const data = await readFile(from);
+    await writeFile(dest, data);
+    process.stdout.write(`  ${green("over")}  ${relPath}\n`);
+  }
 }
 
 /**

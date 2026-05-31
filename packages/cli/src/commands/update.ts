@@ -30,10 +30,20 @@ const NEVER_UPDATE_FILES = new Set([
   "GEMINI.md",
   "AGENTS.md",
   "opftr.config.json",
+  // User-generated spec artifacts (created by /factory-init or hand-edited):
+  ".claude/specs/constitution.md",
+  ".claude/specs/workflow.md",
+  ".claude/specs/SPEC.md",
+  ".claude/specs/prd.md",
+  ".claude/specs/rfc.md",
 ]);
 
 // Relative path prefixes (with trailing slash) that are entirely user-owned.
-const NEVER_UPDATE_PREFIXES = [".claude/specs/tasks/"];
+const NEVER_UPDATE_PREFIXES = [
+  ".claude/specs/tasks/",
+  ".claude/specs/diagrams/",
+  ".claude/specs/drafts/",
+];
 
 function isProtected(relPath: string): boolean {
   if (NEVER_UPDATE_FILES.has(relPath)) return true;

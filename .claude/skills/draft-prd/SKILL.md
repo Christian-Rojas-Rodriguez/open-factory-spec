@@ -4,8 +4,6 @@ disable-model-invocation: true
 allowed-tools: Read
 ---
 
-> Skeleton — full behavior is implemented in Task 0030.
-
 # draft-prd
 
 Conduct a product-layer interview and render a filled PRD in the canonical format.

@@ -46,8 +46,16 @@ describe("init", () => {
 
     const claudeMd = await readFile(join(tmp, "CLAUDE.md"), "utf8");
     assert.ok(
-      claudeMd.includes("open-factory-spec"),
-      "CLAUDE.md should reference open-factory-spec",
+      claudeMd.includes("Non-negotiable rules"),
+      "CLAUDE.md should contain the non-negotiable rules section",
+    );
+    assert.ok(
+      !claudeMd.includes("Tasks 0001-0029"),
+      "CLAUDE.md must not contain opftr-specific task references",
+    );
+    assert.ok(
+      !claudeMd.includes("Hito A"),
+      "CLAUDE.md must not contain opftr-specific milestone references",
     );
   });
 

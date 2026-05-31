@@ -4,8 +4,6 @@ disable-model-invocation: true
 allowed-tools: Read
 ---
 
-> Skeleton — full behavior is implemented in Task 0009.
-
 # propose-agents
 
 Produce the per-agent, per-skill, per-hook, per-command configuration that Planner emits as part of a Workflow proposal.

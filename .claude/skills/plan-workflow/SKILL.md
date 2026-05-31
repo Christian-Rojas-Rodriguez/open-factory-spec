@@ -4,8 +4,6 @@ disable-model-invocation: true
 allowed-tools: Read
 ---
 
-> Skeleton — full behavior is implemented in Task 0008.
-
 # plan-workflow
 
 Derive the canonical `workflow.md` from an approved RFC. `workflow.md` is a machine-readable declaration;

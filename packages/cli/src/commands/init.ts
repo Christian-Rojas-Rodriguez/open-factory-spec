@@ -236,11 +236,12 @@ export async function runInit(opts: InitOptions): Promise<number> {
   }
 
   // ── Apply ─────────────────────────────────────────────────────────────────
+  const pkgVersion = await getInitPkgVersion();
   for (const p of planned) {
     if (p.src === "") {
       await writeFile(
         p.dst,
-        JSON.stringify({ version: "0.1.3", phases }, null, 2) + "\n",
+        JSON.stringify({ version: pkgVersion, phases }, null, 2) + "\n",
         "utf8",
       );
     } else {
@@ -266,9 +267,7 @@ export async function runInit(opts: InitOptions): Promise<number> {
       `     ${c.cyan(codeP.toolCommand)}   (code phase — reads ${c.dim(codeP.templateDir + "/agents/")})`,
     );
   }
-  line(
-    `  4. Once Hito A is materialized, run ${c.cyan("/factory-init")} to bootstrap your project`,
-  );
+  line(`  4. Run ${c.cyan("/factory-init")} in Claude Code to bootstrap your project (PRD → RFC → Workflow)`);
   return 0;
 }
 
@@ -276,6 +275,17 @@ function isSameOrAncestor(target: string, candidate: string): boolean {
   const t = target.endsWith("/") ? target : target + "/";
   const c = candidate.endsWith("/") ? candidate : candidate + "/";
   return c.startsWith(t);
+}
+
+async function getInitPkgVersion(): Promise<string> {
+  try {
+    const { createRequire } = await import("node:module");
+    const req = createRequire(import.meta.url);
+    const pkg = req("../../package.json") as { version: string };
+    return pkg.version;
+  } catch {
+    return "0.1.0";
+  }
 }
 
 void stat;

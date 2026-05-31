@@ -4,8 +4,6 @@ disable-model-invocation: true
 allowed-tools: Read
 ---
 
-> Skeleton — full behavior is implemented in Task 0031.
-
 # draft-rfc
 
 Conduct a technical interview from an approved PRD and render a filled RFC — including granularity strategy, Task decomposition, and POA declaration (§7 and §8 are load-bearing for `plan-workflow`).
