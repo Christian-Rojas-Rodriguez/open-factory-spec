@@ -20,6 +20,11 @@ Invoke `Agent(architect)` with:
 ## Steps
 
 ```
+Step 0.  Ensure clean git state on develop:
+         git status  → must be clean. If dirty: STOP, tell user to commit or stash first.
+         git checkout develop
+         git pull origin develop
+
 Step 1.  Invoke Agent(planner):
          "Read .claude/specs/workflow.md, .claude/specs/rfc.md, and
           .claude/specs/tasks/ (list all task specs and their status).

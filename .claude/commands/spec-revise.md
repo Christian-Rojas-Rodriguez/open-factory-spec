@@ -23,6 +23,12 @@ Invoke `Agent(architect)` with:
 ## Steps
 
 ```
+Step 0.  Ensure clean git state on the task branch:
+         git status  → must be clean. If dirty: STOP, tell user to commit or stash first.
+         Read .claude/specs/tasks/<id>-*.md → get `branch` field from frontmatter.
+         git checkout <branch>   (the task's own branch, not develop)
+         git pull origin <branch> 2>/dev/null || true   (ok if branch doesn't exist remotely yet)
+
 Step 1.  Invoke Agent(curator):
          "Read .claude/specs/tasks/<id>-*.md in full.
           Also read .claude/specs/prd.md and .claude/specs/rfc.md for traceability context.
