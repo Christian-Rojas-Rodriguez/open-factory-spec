@@ -5,7 +5,7 @@ import { runUpdate } from "./commands/update.js";
 import { c, errLine } from "./utils/term.js";
 import { providerIds } from "./utils/providers.js";
 
-const VERSION = "0.1.7";
+const VERSION = "0.1.8";
 
 const HELP = `${c.bold("opftr")} ${c.dim("v" + VERSION)}
 

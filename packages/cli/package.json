@@ -1,6 +1,6 @@
 {
   "name": "opftr",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Scaffold an open-factory-spec (POA + SDD spec-as-source) into your project. `npx opftr init` drops a ready-to-use .claude/ and CLAUDE.md.",
   "license": "MIT",
   "type": "module",
