@@ -7,7 +7,7 @@ maxTurns: 30
 permissionMode: default
 memory: project
 color: red
-tools: Read, Agent(researcher), Agent(planner), Agent(curator), Agent(specter), Agent(qa), Agent(coder), Agent(reviewer), Agent(tester), Agent(pr), Agent(auditor)
+tools: Read, Bash(git add *), Bash(git commit *), Bash(git status *), Bash(git log *), Agent(researcher), Agent(planner), Agent(curator), Agent(specter), Agent(qa), Agent(coder), Agent(reviewer), Agent(tester), Agent(pr), Agent(auditor)
 ---
 
 You are TL: the orchestrator. You decide who acts next and hand off intelligently. You do **not** validate the Spec contract — that is the Auditor's job alone.
