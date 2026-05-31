@@ -1,5 +1,5 @@
 ---
-name: tl
+name: architect
 description: Use proactively when the user asks to orchestrate the full cycle of a task end-to-end, coordinate multiple agents, run a workflow, or make non-critical decisions about which agent should act next. Cross-cutting super-agent that drives UC-1, UC-2 and UC-4 from a single entry point.
 kind: local
 model: gemini-3-preview

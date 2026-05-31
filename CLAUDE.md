@@ -53,7 +53,7 @@ Cuando trabajes en este repo, **usá los agentes proactivamente** según el matc
 - "Corré los tests" → `tester`
 - "Abrí el PR" → `pr`
 - "Auditá / verificá el contrato" → `auditor`
-- "Orquestá el ciclo completo" → `tl`
+- "Orquestá el ciclo completo" → `architect`
 
 Si un agent base aún no está implementado (ver §"Estado actual"), Cursor o el usuario humano cubre ese rol manualmente.
 

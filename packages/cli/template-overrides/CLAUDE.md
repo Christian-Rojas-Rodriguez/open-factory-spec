@@ -51,7 +51,7 @@ Use agents proactively based on the natural match of the prompt:
 - "Run the tests" → `tester`
 - "Open the PR" → `pr`
 - "Audit / verify the contract" → `auditor`
-- "Orchestrate the full cycle" → `tl`
+- "Orchestrate the full cycle" → `architect`
 
 Full matching fixtures: [`.claude/specs/diagrams/invocation-fixtures.md`](.claude/specs/diagrams/invocation-fixtures.md).
 

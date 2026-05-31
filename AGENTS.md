@@ -32,7 +32,7 @@ packages/            # CLI package (opftr)
 researcher → planner (PRD draft → Gate 1 → RFC draft → Gate 2) → specter → qa → coder → reviewer → tester → pr → auditor
 ```
 
-- `tl` orchestrates the full cycle end-to-end.
+- `architect` orchestrates the full cycle end-to-end.
 - Bootstrap (UC-1) has **two review gates**: PRD draft (`drafts/prd.md`) then RFC draft (`drafts/rfc.md`). The user opens each file, edits it, and approves before the next stage. Nothing is written to `workflow.md` or task specs until both gates pass.
 - Approval checkpoints require explicit user reply (`approve prd` / `approve rfc` / `APPROVED`).
 
@@ -50,7 +50,7 @@ researcher → planner (PRD draft → Gate 1 → RFC draft → Gate 2) → spect
 | `tester` | Validate | Run test suite and report results |
 | `pr` | Validate | Open pull request with canonical template |
 | `auditor` | Validate | Audit Spec↔Code equivalence, bump Spec.version at merge |
-| `tl` | Cross-cutting | Orchestrate full UC-1/UC-2/UC-4 cycle |
+| `architect` | Cross-cutting | Orchestrate full UC-1/UC-2/UC-4 cycle |
 
 ## How to invoke agents
 

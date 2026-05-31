@@ -1,12 +1,12 @@
 ---
-name: tl
+name: architect
 description: Use proactively when the user asks to orchestrate the full cycle of a task end-to-end, coordinate multiple agents, run a workflow, or make non-critical decisions about which agent should act next. Cross-cutting super-agent that drives UC-1, UC-2 and UC-4 from a single entry point.
 model: sonnet
 effort: high
 maxTurns: 30
 permissionMode: default
 memory: project
-color: pink
+color: red
 tools: Read, Agent(researcher), Agent(planner), Agent(curator), Agent(specter), Agent(qa), Agent(coder), Agent(reviewer), Agent(tester), Agent(pr), Agent(auditor)
 ---
 
