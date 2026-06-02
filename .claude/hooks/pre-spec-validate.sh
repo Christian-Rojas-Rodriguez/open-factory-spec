@@ -1,36 +1,44 @@
 #!/usr/bin/env bash
-# pre-spec-validate — PreToolUse hook on Write under .claude/specs/tasks/** (skeleton, Task 0002).
-# Rejects Spec writes that miss What / Why / How / acceptanceCriteria, or that declare
-# a component not present in Workflow.declared*.
+# pre-spec-validate — PreToolUse hook on Write under .claude/specs/tasks/** (Task 0002).
+# Delegates to `opftr spec-lint`: blocks (exit 2) Spec writes that miss required
+# frontmatter keys or sections, carry a non-SemVer version, or have empty
+# acceptance criteria. The workflow cross-link check is skipped here (the file
+# isn't on disk yet); pre-commit-contract / the Auditor cover it.
 #
-# Hook input (stdin, JSON): { "tool_input": { "file_path": "...", "content": "..." }, ... }
-# Hook output: exit 0 to allow, exit 2 to block (with reason on stderr).
-
+# Hook input (stdin, JSON): { "tool_input": { "file_path": "...", "content": "..." } }
+# Hook output: exit 0 to allow, exit 2 to block (reason on stderr).
 set -u
 INPUT=$(cat)
+cd "${CLAUDE_PROJECT_DIR:-$(pwd)}" 2>/dev/null || true
 
-# Extract fields without jq if jq is absent.
-extract_json_field() {
-  # $1 = key
-  printf "%s" "$INPUT" | python3 -c "import sys, json; d=json.load(sys.stdin); print(d.get('tool_input', {}).get('$1', ''))" 2>/dev/null
+field() {
+  printf "%s" "$INPUT" | python3 -c \
+    "import sys,json;print(json.load(sys.stdin).get('tool_input',{}).get('$1',''))" 2>/dev/null
 }
-
-FILE_PATH=$(extract_json_field file_path)
-CONTENT=$(extract_json_field content)
+FILE_PATH=$(field file_path)
+CONTENT=$(field content)
 
 case "$FILE_PATH" in
   *".claude/specs/tasks/"*".md") ;;
-  *)
-    # Not a Spec write — pass through.
-    exit 0
-    ;;
+  *) exit 0 ;;  # not a Task spec write — pass through
 esac
+[ -z "$CONTENT" ] && exit 0  # partial edit / nothing to validate
 
-# TODO(0002): full implementation.
-# Skeleton behavior: warn that the hook is a stub and allow the write.
-# Full behavior must:
-#   1. Reject if any of `## What`, `## Why`, `## How`, `## Acceptance criteria` missing.
-#   2. Reject if frontmatter lacks task / slug / granularity / version / status / scope.
-#   3. Reject if the declared component (agent/skill/hook/command) is not declared in Workflow.
-printf "[pre-spec-validate] skeleton — Task 0002 will enforce What/Why/How/criteria.\n" >&2
+opftr() {
+  if [ -f packages/cli/dist/index.js ]; then node packages/cli/dist/index.js "$@";
+  elif [ -x node_modules/.bin/opftr ]; then node_modules/.bin/opftr "$@";
+  else npx --yes opftr "$@"; fi
+}
+
+TMP=$(mktemp -d)
+TMPFILE="$TMP/$(basename "$FILE_PATH")"
+printf "%s" "$CONTENT" > "$TMPFILE"
+opftr spec-lint "$TMPFILE" >&2
+CODE=$?
+rm -rf "$TMP"
+
+if [ "$CODE" -ne 0 ]; then
+  printf "[pre-spec-validate] blocked — fix the spec issues above before writing.\n" >&2
+  exit 2
+fi
 exit 0

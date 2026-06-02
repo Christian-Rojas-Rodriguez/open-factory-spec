@@ -2,6 +2,8 @@
 import { parseArgs } from "node:util";
 import { runInit } from "./commands/init.js";
 import { runUpdate } from "./commands/update.js";
+import { runSpecLint } from "./commands/spec-lint.js";
+import { runAudit } from "./commands/audit.js";
 import { c, errLine } from "./utils/term.js";
 
 const VERSION = "0.2.0";
@@ -16,6 +18,9 @@ ${c.bold("Usage:")}
 ${c.bold("Commands:")}
   init [dir]               Drop a ready-to-use .claude/ and CLAUDE.md into [dir] (default: cwd)
   update [dir]             Update agents, skills and hooks from the latest package; preserves your specs
+  spec-lint <file>         Validate a Task spec (frontmatter + required sections + workflow cross-link)
+  audit --check            Enforce the spec↔code contract on staged changes (scope + coverage)
+  audit --bump --since R   Propose SemVer bumps for Task specs changed since git ref R
 
 ${c.bold("Options for init:")}
   --force                  Overwrite existing files without prompting
@@ -108,6 +113,51 @@ async function main(): Promise<number> {
         force: !!parsed.values.force,
         dryRun: !!parsed.values["dry-run"],
       });
+    }
+    case "spec-lint": {
+      const parsed = parseArgs({
+        args: rest,
+        allowPositionals: true,
+        options: { help: { type: "boolean", short: "h", default: false } },
+      });
+      if (parsed.values.help || parsed.positionals.length === 0) {
+        process.stdout.write("Usage: opftr spec-lint <path-to-task-spec.md>\n");
+        return parsed.values.help ? 0 : 2;
+      }
+      return await runSpecLint({ file: parsed.positionals[0]! });
+    }
+    case "audit": {
+      const parsed = parseArgs({
+        args: rest,
+        allowPositionals: true,
+        options: {
+          check: { type: "boolean", default: false },
+          bump: { type: "boolean", default: false },
+          since: { type: "string" },
+          files: { type: "string" },
+          write: { type: "boolean", default: false },
+          help: { type: "boolean", short: "h", default: false },
+        },
+      });
+      if (parsed.values.help) {
+        process.stdout.write(
+          "Usage: opftr audit --check | opftr audit --bump --since <ref> [--write]\n",
+        );
+        return 0;
+      }
+      const files = parsed.values.files
+        ? parsed.values.files.split(",").map((s) => s.trim()).filter(Boolean)
+        : undefined;
+      if (parsed.values.bump) {
+        return await runAudit({
+          mode: "bump",
+          since: parsed.values.since,
+          files,
+          write: !!parsed.values.write,
+        });
+      }
+      // Default to --check.
+      return await runAudit({ mode: "check", files });
     }
     default:
       errLine(`${c.red("Unknown command:")} ${command}`);
