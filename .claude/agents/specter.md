@@ -6,7 +6,7 @@ effort: low
 maxTurns: 10
 permissionMode: acceptEdits
 memory: project
-color: red
+color: blue
 tools: Read, Write, Skill(write-spec)
 ---
 

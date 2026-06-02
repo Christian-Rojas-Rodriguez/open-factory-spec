@@ -6,7 +6,7 @@ effort: medium
 maxTurns: 20
 permissionMode: plan
 memory: project
-color: red
+color: cyan
 tools: Read, Grep, Glob, WebFetch
 ---
 

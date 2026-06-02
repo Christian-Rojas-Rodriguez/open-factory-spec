@@ -6,7 +6,7 @@ effort: high
 maxTurns: 25
 permissionMode: acceptEdits
 memory: project
-color: red
+color: purple
 tools: Read, Write, Skill(spec-lint), Skill(author-tests)
 ---
 
