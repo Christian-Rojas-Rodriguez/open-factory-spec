@@ -1,91 +1,66 @@
 # opftr
 
-> Scaffold an `open-factory-spec` (POA + SDD spec-as-source) into your project.
+> Scaffold an `open-factory-spec` (POA + SDD spec-as-source) agent factory for **Claude Code**.
 
 ## Quick start
+
+**Requires Node ≥ 20.** In your project:
 
 ```bash
 npx opftr init
 ```
 
-The CLI asks which AI provider you want to use, then drops the right files into the current directory:
+That writes exactly three things into the current directory:
 
 ```
-? Select your AI provider:
-  › 1. Anthropic — Claude Code
-    2. OpenAI — Codex CLI
-    3. OpenCode
-    4. Gemini — Gemini CLI
-
-Enter number (1–4) [1]:
+.claude/              the factory (agents, skills, commands, hooks, specs)
+CLAUDE.md             project memory loaded by Claude Code each session
+opftr.config.json     { "version": "…" }  — lets `opftr update` upgrade you later
 ```
 
-Then open your chosen tool in the same directory and start with `/factory-init` once the executable components (agents, skills, hooks, commands) are materialized.
+Then open Claude Code in the same directory and run `/factory-init "your project description"`.
 
-## Supported providers
+## Commands
 
-| Provider | Memory file | Command |
-|---|---|---|
-| Anthropic — Claude Code | `CLAUDE.md` | `claude` |
-| OpenAI — Codex CLI | `AGENTS.md` | `codex` |
-| OpenCode | `AGENTS.md` | `opencode` |
-| Gemini — Gemini CLI | `GEMINI.md` | `gemini` |
+```
+init [dir]                Scaffold .claude/ + CLAUDE.md + opftr.config.json (default dir: cwd)
+  --force                 overwrite existing files without prompting
+  --dry-run               print the plan without writing
+  --skip-claude-md        don't write CLAUDE.md
+  --yes, -y               non-interactive
 
-Pass `--provider <id>` to skip the interactive prompt:
+update [dir]              Update factory-owned files from the latest package
+  --force                 apply without prompting
+  --dry-run               preview changes
 
-```bash
-npx opftr init --provider gemini
-npx opftr init --provider opencode ./my-project
+spec-lint <file>          Validate a Task spec (frontmatter + sections + SemVer); exit 2 if blocking
+audit --check             Enforce scope + coverage on staged changes; exit 2 on violation
+audit --bump --since <r>  Propose/apply SemVer bumps for Task specs changed since git ref <r>
 ```
 
-## What `init` ships
-
-- Agent-memory file (`CLAUDE.md`, `AGENTS.md`, or `GEMINI.md` depending on provider) — project memory loaded each session.
-- `.claude/specs/constitution.md` — non-negotiable principles.
-- `.claude/specs/workflow.md` — Tasks that build the factory itself.
-- `.claude/specs/SPEC.md` — master spec (12 sections).
-- `.claude/specs/diagrams/{poa-class,sequences,invocation-fixtures}.md` — POA model + use cases + smoke-tests.
-- *(progressively)* `.claude/agents/`, `.claude/skills/`, `.claude/hooks/`, `.claude/commands/`, `.claude/settings.json` — executable components as they ship in each release.
+The `spec-lint` and `audit` commands back the factory's git/Claude-Code hooks
+(`pre-spec-validate`, `pre-commit-contract`, `post-merge-bump`) so the spec↔code
+contract is enforced for real, not advisory.
 
 ## Updating
-
-When a new version of `opftr` ships with updated agents, skills, or hooks, run:
 
 ```bash
 npx opftr@latest update
 ```
 
-This reads your existing `opftr.config.json` (no prompts needed), updates all factory-owned files (agents, skills, hooks, specs), and **preserves** your user data:
+Reads your `opftr.config.json`, refreshes factory-owned files (agents, skills, hooks),
+and **never** overwrites your data:
 
-- `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` — project memory is never overwritten.
-- `.claude/specs/tasks/` — your task specs are never touched.
-- `opftr.config.json` — only the `version` field is bumped.
+- `CLAUDE.md` — project memory is never touched.
+- `.claude/specs/tasks/`, `.claude/specs/drafts/`, `.claude/specs/diagrams/` — your specs are yours.
+- `.claude/specs/constitution.md`, `workflow.md`, `SPEC.md` — never overwritten once you've edited them.
+- `opftr.config.json` — only the `version` field is bumped (legacy fields are preserved).
 
-Use `--dry-run` to preview what would change without writing anything.
-
-## Flags
-
-```
-init [dir]              scaffold into [dir] (default: cwd)
-  --provider <id>       anthropic | openai | opencode | gemini
-                        prompted interactively when omitted
-  --force               overwrite existing files without prompting
-  --dry-run             print plan without writing
-  --skip-claude-md      don't write the agent-memory file
-  --yes, -y             non-interactive mode (defaults to anthropic)
-
-update [dir]            update agents/skills/hooks from the latest package
-  --force               apply without prompting for confirmation
-  --dry-run             print what would change without writing
-```
-
-## Versioning
-
-`opftr` ships the entire factory as a tagged snapshot. Each new agent, skill, hook or command added upstream becomes a minor/patch release. Projects bootstrapped with an older version can upgrade by running `npx opftr@latest update`.
+Use `--dry-run` to preview.
 
 ## Documentation
 
-Full project docs: see [`.claude/specs/SPEC.md`](https://github.com/your-org/open-factory-spec/blob/main/.claude/specs/SPEC.md) in the repository.
+Full project docs: [`.claude/specs/SPEC.md`](https://github.com/Christian-Rojas-Rodriguez/open-factory-spec/blob/main/.claude/specs/SPEC.md).
 
 ## License
 
