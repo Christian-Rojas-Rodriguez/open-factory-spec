@@ -12,7 +12,7 @@ Bump the SemVer version of the Spec for Task `$0` by level `$1`. Optional flag: 
 
 ## Plan
 
-1. `tl` invokes `auditor`.
+1. `architect` invokes `auditor`.
 2. `auditor` invokes Skill `verify-contract` with `--check` to confirm the bump is justified.
 3. If `--dry-run` flag is present, return the proposed new version without writing.
 4. Otherwise, `auditor` writes the new `version` field to the Spec frontmatter.

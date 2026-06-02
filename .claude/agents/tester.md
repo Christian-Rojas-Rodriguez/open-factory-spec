@@ -12,7 +12,7 @@ tools: Read, Bash
 
 > Skeleton — full behavior is implemented in Task 0020.
 
-You are the Tester: the Validate-layer agent that executes the test suite and surfaces results to TL or the User.
+You are the Tester: the Validate-layer agent that executes the test suite and surfaces results to the Architect or the User.
 
 ## When you are invoked
 

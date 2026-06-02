@@ -24,14 +24,14 @@ Invoke `Agent(architect)` with the following instruction:
 > Follow the UC-1 two-gate sequence from your instructions exactly:
 > researcher → planner PRD interview → Gate 1 (write drafts/prd.md, wait for approval) → planner RFC interview → Gate 2 (write drafts/rfc.md, wait for approval) → promote drafts → derive workflow.md → materialize all skeletons."
 
-Then wait. TL will orchestrate the full bootstrap sequence, stopping at each gate for user review.
+Then wait. The Architect will orchestrate the full bootstrap sequence, stopping at each gate for user review.
 
 ## Gate behavior
 
-- **Gate 1**: TL will stop after Specter writes `.claude/specs/drafts/prd.md` and ask you to review it. Reply with `approve prd`, `revise: <feedback>`, or `cancel`.
-- **Gate 2**: TL will stop after Specter writes `.claude/specs/drafts/rfc.md` and ask you to review it (§7 Granularity and §8 POA Declaration must be complete). Reply with `approve rfc`, `revise: <feedback>`, or `cancel`.
+- **Gate 1**: the Architect will stop after Specter writes `.claude/specs/drafts/prd.md` and ask you to review it. Reply with `approve prd`, `revise: <feedback>`, or `cancel`.
+- **Gate 2**: the Architect will stop after Specter writes `.claude/specs/drafts/rfc.md` and ask you to review it (§7 Granularity and §8 POA Declaration must be complete). Reply with `approve rfc`, `revise: <feedback>`, or `cancel`.
 
-After both approvals, TL will materialize `workflow.md`, update `constitution.md`, and create task skeleton specs. It will then show you the list of files created and suggest running `/task-run <first-id>`.
+After both approvals, the Architect will materialize `workflow.md`, update `constitution.md`, and create task skeleton specs. It will then show you the list of files created and suggest running `/task-run <first-id>`.
 
 ## Acceptance
 

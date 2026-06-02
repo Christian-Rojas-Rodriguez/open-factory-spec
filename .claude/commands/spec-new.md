@@ -12,10 +12,10 @@ Create a fresh Spec skeleton for Task id `$0`, slug `$1`.
 
 ## Plan
 
-1. `tl` confirms that Task `$0` is declared in `workflow.md`. If not, abort and recommend `/agent-new` or `/workflow-review`.
-2. `tl` invokes `researcher` for per-task context.
-3. `tl` invokes `curator` to polish What/Why/How.
-4. `tl` invokes `specter` to render the canonical template via Skill `write-spec` at `.claude/specs/tasks/<id>-<slug>.md`, version `0.1.0`, status `in-progress`.
+1. `architect` confirms that Task `$0` is declared in `workflow.md`. If not, abort and recommend `/agent-new` or `/workflow-review`.
+2. `architect` invokes `researcher` for per-task context.
+3. `architect` invokes `curator` to polish What/Why/How.
+4. `architect` invokes `specter` to render the canonical template via Skill `write-spec` at `.claude/specs/tasks/<id>-<slug>.md`, version `0.1.0`, status `in-progress`.
 5. Return the file path and recommended next step (`/task-run <id>`).
 
 ## Operating rules

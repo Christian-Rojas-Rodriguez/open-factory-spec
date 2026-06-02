@@ -67,7 +67,7 @@ Cinco primitivas, cada una con `name`, `permissions` (mínimas) y `objective`:
 | Plan | purple | qa |
 | Implement | green | coder, reviewer |
 | Validate | red | tester, pr, auditor |
-| Transversales | cyan / pink | researcher, tl |
+| Transversales | cyan / red | researcher, architect |
 
 ### Distribución
 
@@ -103,7 +103,7 @@ Estrategia de granularidad elegida: `1 Task = 1 componente POA`
 | 0003 | pre-commit-contract | Hook git que bloquea commits fuera de scope |
 | 0004 | post-merge-bump | Hook git que bumpea `Spec.version` al merge |
 | 0005 | researcher-agent | Agent `researcher` (cyan, plan-only) |
-| 0006 | tl-agent | Agent `tl` (pink, orquestador) |
+| 0006 | architect-agent | Agent `architect` (red, orquestador) |
 | 0007 | planner-agent | Agent `planner` (orange, Bootstrap) |
 | 0008 | plan-workflow-skill | Skill `plan-workflow` (deriva workflow.md desde RFC) |
 | 0009 | propose-agents-skill | Skill `propose-agents` (catálogo POA para RFC §8) |
@@ -139,7 +139,7 @@ Estrategia de granularidad elegida: `1 Task = 1 componente POA`
 | # | Agent | Capa | Color | Task |
 |---|---|---|---|---|
 | 1 | `researcher` | Transversal | `cyan` | 0005 |
-| 2 | `tl` | Cross-cutting | `pink` | 0006 |
+| 2 | `architect` | Cross-cutting | `red` | 0006 |
 | 3 | `planner` | Bootstrap | `orange` | 0007 |
 | 4 | `curator` | Specify | `blue` | 0011 |
 | 5 | `specter` | Specify | `blue` | 0013 |

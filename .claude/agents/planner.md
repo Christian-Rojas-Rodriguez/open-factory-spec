@@ -27,7 +27,7 @@ You are the Planner: the Bootstrap-layer agent that conducts the two-stage Boots
 ### Step 1 — Analyze gaps
 
 Read:
-- The project description (received from architect/tl)
+- The project description (received from architect)
 - Researcher output (domain, stack, existing context)
 - `.claude/specs/templates/prd.md` to know the output format
 
