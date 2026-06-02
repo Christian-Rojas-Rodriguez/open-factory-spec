@@ -24,13 +24,13 @@ const overridesDir = resolve(cliRoot, "template-overrides");
  * Allowlist of paths (relative to workspaceRoot) that get copied into templates/.
  * Keep this conservative: only the scaffolding source.
  */
-const ALLOWLIST = [".claude", "CLAUDE.md", ".gemini", "GEMINI.md", ".opencode", "AGENTS.md", "opencode.json"];
+const ALLOWLIST = [".claude", "CLAUDE.md"];
 
 /**
  * Glob prefixes: any file in workspaceRoot whose name starts with one of these
- * strings will also be included. Use for multi-file patterns like AGENTS.*.md.
+ * strings will also be included. None needed for the Claude-only template set.
  */
-const GLOB_PREFIXES = ["AGENTS."];
+const GLOB_PREFIXES = [];
 
 /**
  * Within `.claude/`, exclude these dirs/files even though they match the allowlist.
