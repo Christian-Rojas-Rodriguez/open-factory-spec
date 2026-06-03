@@ -6,7 +6,7 @@ effort: medium
 maxTurns: 15
 permissionMode: plan
 memory: project
-color: red
+color: blue
 tools: Read, Agent(researcher), Skill(polish-idea)
 ---
 

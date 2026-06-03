@@ -12,8 +12,8 @@ Add a domain agent named `$ARGUMENTS`.
 
 ## Plan
 
-1. `tl` invokes `planner` to propose the new agent: `objective`, `model`, `effort`, `maxTurns`, `permissionMode`, `memory`, `color`, minimum-privilege `tools`, plus any skills/hooks/MCPs it needs.
-2. `tl` surfaces the proposal to the user. Ask: `Approve agent <name>? (yes / revise / cancel)`.
+1. `architect` invokes `planner` to propose the new agent: `objective`, `model`, `effort`, `maxTurns`, `permissionMode`, `memory`, `color`, minimum-privilege `tools`, plus any skills/hooks/MCPs it needs.
+2. `architect` surfaces the proposal to the user. Ask: `Approve agent <name>? (yes / revise / cancel)`.
 3. If `yes`, `specter` writes `.claude/agents/<name>.md` and updates `workflow.md` to add the agent (and any new skills/hooks/MCPs) to `Workflow.declared*`.
 4. Re-sync templates so the new agent ships in the next CLI release.
 

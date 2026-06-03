@@ -183,7 +183,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 - **memory**: `project`.
 - **description**: `Use proactively when the user asks to research, investigate, or analyze a domain, codebase, or stack before planning or speccing. Transversal agent.`
 
-#### `tl` — `pink`
+#### `architect` — `red`
 
 - **objective**: orquestar agentes para correr los UCs; decisiones no críticas.
 - **tools**: `Agent(*)`, `Read`.
@@ -382,7 +382,7 @@ Si el Auditor detecta drift entre Spec y código durante el review del PR, **blo
 Orden recomendado (ver [`workflow.md`](./workflow.md) §3 para detalle por Task):
 
 1. **Foundation** (0001-0004) — settings + 4 hooks. Sin esto la factory no aplica nada.
-2. **Transversales** (0005-0006) — researcher + tl. Sin tl no se puede orquestar; sin researcher no hay input para los demás.
+2. **Transversales** (0005-0006) — researcher + architect. Sin architect no se puede orquestar; sin researcher no hay input para los demás.
 3. **Bootstrap layer** (0007-0010, 0030-0031) — planner + 5 skills (`draft-prd`, `draft-rfc`, `plan-workflow`, `propose-agents`, `research-topic`). Habilita correr UC-1 con flujo PRD → RFC → Workflow derivado.
 4. **Specify layer** (0011-0014) — curator + specter + 2 skills. Habilita correr el inicio de UC-2.
 5. **Plan layer** (0015-0017) — qa + 2 skills. Sin qa no hay tests, sin tests Coder no puede empezar.

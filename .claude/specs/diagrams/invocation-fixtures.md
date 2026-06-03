@@ -37,8 +37,8 @@
 | `Creá el pull request con el template del repo` | `pr` | "creá el pull request" |
 | `Auditá que el código coincida con la spec antes de mergear` | `auditor` | "auditá que el código coincida con la spec" |
 | `Verificá el contrato spec-código del PR` | `auditor` | "verificá el contrato spec-código" |
-| `Orquestá el ciclo completo de la task 0003 de punta a punta` | `tl` | "orquestá el ciclo completo" |
-| `Coordiná los agentes para implementar la task` | `tl` | "coordiná los agentes" |
+| `Orquestá el ciclo completo de la task 0003 de punta a punta` | `architect` | "orquestá el ciclo completo" |
+| `Coordiná los agentes para implementar la task` | `architect` | "coordiná los agentes" |
 
 ## 3. Skills (auto-invocables — sin `disable-model-invocation`)
 

@@ -11,7 +11,7 @@ function wrap(open: number, close: number): (s: string) => string {
 export const c = {
   bold: wrap(1, 22),
   dim: wrap(2, 22),
-  red: wrap(31, 39),      // Validate layer  (auditor · pr · tl)
+  red: wrap(31, 39),      // Validate layer  (auditor · pr · architect)
   green: wrap(32, 39),    // Implement layer (coder · reviewer · tester)
   yellow: wrap(33, 39),   // Bootstrap layer (planner) — closest to orange
   blue: wrap(34, 39),     // Specify layer   (curator · specter · qa · researcher)

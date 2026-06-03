@@ -25,7 +25,7 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 | # | Agent | Capa | Color | Task |
 |---|---|---|---|---|
 | 1 | `researcher` | Transversal | `cyan` | 0005 |
-| 2 | `tl` | Cross-cutting | `pink` | 0006 |
+| 2 | `architect` | Cross-cutting | `red` | 0006 |
 | 3 | `planner` | Bootstrap | `orange` | 0007 |
 | 4 | `curator` | Specify | `blue` | 0011 |
 | 5 | `specter` | Specify | `blue` | 0013 |
@@ -89,7 +89,7 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 ### Transversales (0005-0006)
 
 - **0005** — Agent `researcher` (cyan). Tools: `Read`, `Grep`, `Glob`, `WebFetch`. `permissionMode: plan`. **✓ done (v0.1.0)** — see [tasks/0005-researcher-agent.md](tasks/0005-researcher-agent.md).
-- **0006** — Agent `tl` (pink). Tools: `Agent(*)`, `Read`. `permissionMode: default`. Sin `Agent(*)` ningún UC se puede orquestar.
+- **0006** — Agent `architect` (red). Tools: `Agent(*)`, `Read`. `permissionMode: default`. Sin `Agent(*)` ningún UC se puede orquestar.
 
 ### Bootstrap layer (0007-0010, 0030-0031)
 
@@ -143,7 +143,7 @@ graph LR
     H3[0003 pre-commit-contract]
     H4[0004 post-merge-bump]
     R[0005 researcher]
-    T[0006 tl]
+    T[0006 architect]
     P[0007 planner]
     S8[0008 plan-workflow]
     S9[0009 propose-agents]

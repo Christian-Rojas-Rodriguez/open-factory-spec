@@ -11,41 +11,41 @@
 ```mermaid
 sequenceDiagram
     actor User
-    participant TL as tl (pink)
+    participant AR as architect (red)
     participant R as researcher (cyan)
     participant P as planner (orange)
     participant S as specter (blue)
     participant FS as .claude/specs
-    User->>TL: /factory-init "ML training pipeline"
-    TL->>R: investiga dominio + stack + restricciones
-    R-->>TL: hallazgos
-    TL->>P: conduce Bootstrap — Gate 1: PRD
+    User->>AR: /factory-init "ML training pipeline"
+    AR->>R: investiga dominio + stack + restricciones
+    R-->>AR: hallazgos
+    AR->>P: conduce Bootstrap — Gate 1: PRD
     Note over P: Skill(draft-prd): interview de producto
     P->>S: contenido del PRD
     S->>FS: ESCRIBE drafts/prd.md (status: draft)
-    TL-->>User: "Abr&iacute; .claude/specs/drafts/prd.md, revis&aacute;lo/edit&aacute;lo.<br/>Reply: approve prd | revise: &lt;feedback&gt; | cancel"
-    User-->>TL: review (edita el archivo directamente)
+    AR-->>User: "Abr&iacute; .claude/specs/drafts/prd.md, revis&aacute;lo/edit&aacute;lo.<br/>Reply: approve prd | revise: &lt;feedback&gt; | cancel"
+    User-->>AR: review (edita el archivo directamente)
     alt User pide ajustes
-        TL->>P: revise con feedback
+        AR->>P: revise con feedback
         P->>S: PRD actualizado
         S->>FS: reescribe drafts/prd.md
-        TL-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
+        AR-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
     end
-    User->>TL: approve prd (Gate 1 ✓)
-    TL->>P: conduce Bootstrap — Gate 2: RFC
+    User->>AR: approve prd (Gate 1 ✓)
+    AR->>P: conduce Bootstrap — Gate 2: RFC
     Note over P: Skill(draft-rfc): interview t&eacute;cnico
     Note over P: Skill(propose-agents): RFC §8 declaraci&oacute;n POA
     P->>S: contenido del RFC (§7 + §8 completos)
     S->>FS: ESCRIBE drafts/rfc.md (status: draft)
-    TL-->>User: "Abr&iacute; .claude/specs/drafts/rfc.md, revis&aacute;lo.<br/>(§7 Granularidad y §8 POA deben estar completos)<br/>Reply: approve rfc | revise: &lt;feedback&gt; | cancel"
-    User-->>TL: review (edita el archivo directamente)
+    AR-->>User: "Abr&iacute; .claude/specs/drafts/rfc.md, revis&aacute;lo.<br/>(§7 Granularidad y §8 POA deben estar completos)<br/>Reply: approve rfc | revise: &lt;feedback&gt; | cancel"
+    User-->>AR: review (edita el archivo directamente)
     alt User pide ajustes
-        TL->>P: revise con feedback
+        AR->>P: revise con feedback
         P->>S: RFC actualizado
         S->>FS: reescribe drafts/rfc.md
-        TL-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
+        AR-->>User: "Archivo actualizado — revis&aacute; y respond&aacute;"
     end
-    User->>TL: approve rfc (Gate 2 ✓)
+    User->>AR: approve rfc (Gate 2 ✓)
     S->>FS: promueve drafts/prd.md → prd.md (status: approved)
     S->>FS: promueve drafts/rfc.md → rfc.md (status: approved)
     Note over P: Skill(plan-workflow): deriva workflow.md desde rfc.md §7+§8
@@ -85,7 +85,7 @@ Solo `approve rfc` desbloquea la materialización de `workflow.md`, `constitutio
 ```mermaid
 sequenceDiagram
     actor User
-    participant TL as tl (pink)
+    participant AR as architect (red)
     participant R as researcher (cyan)
     participant Cu as curator (blue)
     participant Sp as specter (blue)
@@ -95,22 +95,22 @@ sequenceDiagram
     participant Te as tester (red)
     participant PR as pr (red)
     participant Au as auditor (red)
-    User->>TL: /task-run 0001
-    TL->>R: research contexto de la task
-    R-->>TL: hallazgos
-    TL->>Cu: polish(what/why/how) para task 0001
+    User->>AR: /task-run 0001
+    AR->>R: research contexto de la task
+    R-->>AR: hallazgos
+    AR->>Cu: polish(what/why/how) para task 0001
     Note over Cu: Hook PreSpec valida<br/>What/Why/How (granularidad heredada)
     Cu->>Sp: idea pulida
-    Sp-->>TL: spec materializada
-    TL->>QA: lint spec 0001 + author tests (unit + integration + e2e)
-    QA-->>TL: spec OK + suite de tests escrita (failing)
-    TL->>Co: implement(spec 0001) hasta hacer pasar la suite
+    Sp-->>AR: spec materializada
+    AR->>QA: lint spec 0001 + author tests (unit + integration + e2e)
+    QA-->>AR: spec OK + suite de tests escrita (failing)
+    AR->>Co: implement(spec 0001) hasta hacer pasar la suite
     Note over Co: Hook PreToolUse(Edit/Write)<br/>verifica path en scope de Spec
     Co-->>Rv: diff
     Rv-->>Co: feedback
     Co->>Te: run tests
-    Te-->>TL: report
-    TL->>PR: open PR
+    Te-->>AR: report
+    AR->>PR: open PR
     PR->>Au: review contract
     Au-->>PR: contract OK + spec.version++
     PR-->>User: merge ready
@@ -171,11 +171,11 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor User
-    participant TL as tl (pink)
+    participant AR as architect (red)
     participant P as planner (orange)
     participant S as specter (blue)
-    User->>TL: /agent-new "nextjs-page"
-    TL->>P: definir objective + permisos + MCPs (figma) + skills + hooks
+    User->>AR: /agent-new "nextjs-page"
+    AR->>P: definir objective + permisos + MCPs (figma) + skills + hooks
     P-->>User: propuesta del agente
     User->>P: APROBADO
     P->>S: emitir .claude/agents/nextjs-page.md + actualizar workflow.md

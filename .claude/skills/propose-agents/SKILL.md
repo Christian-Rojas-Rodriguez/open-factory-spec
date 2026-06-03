@@ -40,7 +40,7 @@ For each command, the slug, the use case it serves, and any positional arguments
 | Role kind | model | effort | maxTurns | permissionMode |
 |---|---|---|---|---|
 | Read-heavy researcher | haiku | medium | 20 | plan |
-| Orchestrator / TL | sonnet | high | 30 | default |
+| Orchestrator / architect | sonnet | high | 30 | default |
 | Heavy-reasoning planner | opus | high | 40 | plan |
 | Idea polisher | sonnet | medium | 15 | plan |
 | Spec/template writer | sonnet | low | 10 | acceptEdits |
