@@ -85,7 +85,7 @@ test("AC4: model/effort/permissionMode/memory/color/maxTurns are pinned", async 
   assert.equal(data.effort, "medium", "effort must be medium");
   assert.equal(data.permissionMode, "plan", "permissionMode must be plan");
   assert.equal(data.memory, "project", "memory must be project");
-  assert.equal(data.color, "cyan", "color must be cyan");
+  assert.equal(data.color, "orange", "color must be orange");
   assert.equal(data.maxTurns, "20", "maxTurns must be 20");
 });
 

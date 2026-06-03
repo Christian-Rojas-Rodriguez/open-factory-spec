@@ -11,10 +11,10 @@
 ```mermaid
 sequenceDiagram
     actor User
-    participant AR as architect (red)
-    participant R as researcher (cyan)
+    participant AR as architect (orange)
+    participant R as researcher (orange)
     participant P as planner (orange)
-    participant S as specter (blue)
+    participant S as specter (orange)
     participant FS as .claude/specs
     User->>AR: /factory-init "ML training pipeline"
     AR->>R: investiga dominio + stack + restricciones
@@ -85,16 +85,16 @@ Solo `approve rfc` desbloquea la materialización de `workflow.md`, `constitutio
 ```mermaid
 sequenceDiagram
     actor User
-    participant AR as architect (red)
-    participant R as researcher (cyan)
-    participant Cu as curator (blue)
-    participant Sp as specter (blue)
-    participant QA as qa (purple)
-    participant Co as coder (green)
-    participant Rv as reviewer (green)
-    participant Te as tester (red)
-    participant PR as pr (red)
-    participant Au as auditor (red)
+    participant AR as architect (orange)
+    participant R as researcher (orange)
+    participant Cu as curator (orange)
+    participant Sp as specter (orange)
+    participant QA as qa (orange)
+    participant Co as coder (orange)
+    participant Rv as reviewer (orange)
+    participant Te as tester (orange)
+    participant PR as pr (orange)
+    participant Au as auditor (orange)
     User->>AR: /task-run 0001
     AR->>R: research contexto de la task
     R-->>AR: hallazgos
@@ -136,11 +136,11 @@ Coder no puede declarar la Task como hecha si algún test queda failing.
 
 ```mermaid
 sequenceDiagram
-    participant Co as coder (green)
+    participant Co as coder (orange)
     participant Hook as pre-commit-contract
-    participant Au as auditor (red)
-    participant Cu as curator (blue)
-    participant Sp as specter (blue)
+    participant Au as auditor (orange)
+    participant Cu as curator (orange)
+    participant Sp as specter (orange)
     Co->>Hook: git commit (diff)
     Hook->>Au: verify contract(diff)
     Au-->>Hook: drift en spec 0007 (path X fuera de scope)
@@ -171,9 +171,9 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor User
-    participant AR as architect (red)
+    participant AR as architect (orange)
     participant P as planner (orange)
-    participant S as specter (blue)
+    participant S as specter (orange)
     User->>AR: /agent-new "nextjs-page"
     AR->>P: definir objective + permisos + MCPs (figma) + skills + hooks
     P-->>User: propuesta del agente

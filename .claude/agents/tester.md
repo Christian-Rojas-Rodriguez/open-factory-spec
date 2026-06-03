@@ -6,7 +6,7 @@ effort: low
 maxTurns: 10
 permissionMode: default
 memory: project
-color: red
+color: orange
 tools: Read, Bash
 ---
 

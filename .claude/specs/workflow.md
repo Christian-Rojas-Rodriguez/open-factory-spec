@@ -24,17 +24,19 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 
 | # | Agent | Capa | Color | Task |
 |---|---|---|---|---|
-| 1 | `researcher` | Transversal | `cyan` | 0005 |
-| 2 | `architect` | Cross-cutting | `red` | 0006 |
+| 1 | `researcher` | Transversal | `orange` | 0005 |
+| 2 | `architect` | Cross-cutting | `orange` | 0006 |
 | 3 | `planner` | Bootstrap | `orange` | 0007 |
-| 4 | `curator` | Specify | `blue` | 0011 |
-| 5 | `specter` | Specify | `blue` | 0013 |
-| 6 | `qa` | Plan | `purple` | 0015 |
-| 7 | `coder` | Implement | `green` | 0018 |
-| 8 | `reviewer` | Implement | `green` | 0019 |
-| 9 | `tester` | Validate | `red` | 0020 |
-| 10 | `pr` | Validate | `red` | 0021 |
-| 11 | `auditor` | Validate | `red` | 0022 |
+| 4 | `curator` | Specify | `orange` | 0011 |
+| 5 | `specter` | Specify | `orange` | 0013 |
+| 6 | `qa` | Plan | `orange` | 0015 |
+| 7 | `coder` | Implement | `orange` | 0018 |
+| 8 | `reviewer` | Implement | `orange` | 0019 |
+| 9 | `tester` | Validate | `orange` | 0020 |
+| 10 | `pr` | Validate | `orange` | 0021 |
+| 11 | `auditor` | Validate | `orange` | 0022 |
+
+> **Color:** todos los agentes usan `orange`. El color ya no codifica la capa; la columna *Capa* sigue siendo la fuente de verdad para el rol de cada agente en el ciclo.
 
 ### 2.2 Skills declaradas (10)
 
@@ -88,8 +90,8 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 
 ### Transversales (0005-0006)
 
-- **0005** — Agent `researcher` (cyan). Tools: `Read`, `Grep`, `Glob`, `WebFetch`. `permissionMode: plan`. **✓ done (v0.1.0)** — see [tasks/0005-researcher-agent.md](tasks/0005-researcher-agent.md).
-- **0006** — Agent `architect` (red). Tools: `Agent(*)`, `Read`. `permissionMode: default`. Sin `Agent(*)` ningún UC se puede orquestar.
+- **0005** — Agent `researcher` (orange). Tools: `Read`, `Grep`, `Glob`, `WebFetch`. `permissionMode: plan`. **✓ done (v0.1.0)** — see [tasks/0005-researcher-agent.md](tasks/0005-researcher-agent.md).
+- **0006** — Agent `architect` (orange). Tools: `Agent(*)`, `Read`. `permissionMode: default`. Sin `Agent(*)` ningún UC se puede orquestar.
 
 ### Bootstrap layer (0007-0010, 0030-0031)
 
@@ -102,27 +104,27 @@ Cada Task produce **exactamente un archivo ejecutable** de la factory:
 
 ### Specify layer (0011-0014)
 
-- **0011** — Agent `curator` (blue). Tools: `Read`, `Skill(polish-idea)`. Heredan hook `pre-spec-validate`.
+- **0011** — Agent `curator` (orange). Tools: `Read`, `Skill(polish-idea)`. Heredan hook `pre-spec-validate`.
 - **0012** — Skill `polish-idea`. Estructura What/Why/How por task (granularidad ya heredada).
-- **0013** — Agent `specter` (blue). Tools: `Write(specs/**)`, `Skill(write-spec)`. `permissionMode: acceptEdits` para `specs/`.
+- **0013** — Agent `specter` (orange). Tools: `Write(specs/**)`, `Skill(write-spec)`. `permissionMode: acceptEdits` para `specs/`.
 - **0014** — Skill `write-spec` (`disable-model-invocation: true`). Template + versioning inicial.
 
 ### Plan layer (0015-0017)
 
-- **0015** — Agent `qa` (purple). Tools: `Read`, `Write(tests/**)`, `Bash(<test-runner> --dry-run)`, `Skill(spec-lint)`, `Skill(author-tests)`.
+- **0015** — Agent `qa` (orange). Tools: `Read`, `Write(tests/**)`, `Bash(<test-runner> --dry-run)`, `Skill(spec-lint)`, `Skill(author-tests)`.
 - **0016** — Skill `spec-lint` (`disable-model-invocation: true`). Heurísticas: ambigüedad, testeabilidad, falta de criterios.
 - **0017** — Skill `author-tests` (`disable-model-invocation: true`). Genera unit + integration + acceptance desde acceptance criteria.
 
 ### Implement layer (0018-0019)
 
-- **0018** — Agent `coder` (green). Tools: `Edit`, `Write`, `Bash`, `Read`. Heredan hook `PreToolUse(Edit|Write)` que verifica scope.
-- **0019** — Agent `reviewer` (green). Tools: `Read`, `Grep`, `Bash(git diff *)`, `Bash(git log *)`. Sin write.
+- **0018** — Agent `coder` (orange). Tools: `Edit`, `Write`, `Bash`, `Read`. Heredan hook `PreToolUse(Edit|Write)` que verifica scope.
+- **0019** — Agent `reviewer` (orange). Tools: `Read`, `Grep`, `Bash(git diff *)`, `Bash(git log *)`. Sin write.
 
 ### Validate layer (0020-0023)
 
-- **0020** — Agent `tester` (red). Tools: `Bash(<test-runner> *)`, `Read`.
-- **0021** — Agent `pr` (red). Tools: `Bash(gh pr *)`, `Bash(git push *)`, `Read`.
-- **0022** — Agent `auditor` (red). Tools: `Read`, `Bash(git *)`, `Skill(verify-contract)`.
+- **0020** — Agent `tester` (orange). Tools: `Bash(<test-runner> *)`, `Read`.
+- **0021** — Agent `pr` (orange). Tools: `Bash(gh pr *)`, `Bash(git push *)`, `Read`.
+- **0022** — Agent `auditor` (orange). Tools: `Read`, `Bash(git *)`, `Skill(verify-contract)`.
 - **0023** — Skill `verify-contract` (`disable-model-invocation: true`). Python: compara diff vs `Spec.acceptanceCriteria` y vs `tests/` esperados.
 
 ### Commands (0024-0029)

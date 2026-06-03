@@ -125,17 +125,17 @@ pnpm run git-hooks:install   # links pre-commit-contract + post-merge-bump
 
 | Agent | Layer | Color | Objective |
 |---|---|---|---|
-| `architect` | Cross-cutting | red | Orchestrate UC-1/2/4 end-to-end |
-| `researcher` | Transversal | cyan | Research domain / stack / codebase |
+| `architect` | Cross-cutting | orange | Orchestrate UC-1/2/4 end-to-end |
+| `researcher` | Transversal | orange | Research domain / stack / codebase |
 | `planner` | Bootstrap | orange | Define Workflow, granularity, Tasks |
-| `curator` | Specify | blue | Polish What/Why/How per Task |
-| `specter` | Specify | blue | Materialize versioned Spec to disk |
-| `qa` | Plan | purple | Lint Spec · author 3-level failing tests |
-| `coder` | Implement | green | Implement until the QA suite passes |
-| `reviewer` | Implement | green | Review diff against Spec scope |
-| `tester` | Validate | red | Run the test suite · report |
-| `pr` | Validate | red | Open the pull request |
-| `auditor` | Validate | red | Validate Spec↔Code · bump version |
+| `curator` | Specify | orange | Polish What/Why/How per Task |
+| `specter` | Specify | orange | Materialize versioned Spec to disk |
+| `qa` | Plan | orange | Lint Spec · author 3-level failing tests |
+| `coder` | Implement | orange | Implement until the QA suite passes |
+| `reviewer` | Implement | orange | Review diff against Spec scope |
+| `tester` | Validate | orange | Run the test suite · report |
+| `pr` | Validate | orange | Open the pull request |
+| `auditor` | Validate | orange | Validate Spec↔Code · bump version |
 
 > **Implemented & exercised today:** `architect`, `researcher`.
 > The rest are reviewed definitions on the roadmap to being spec'd + tested.

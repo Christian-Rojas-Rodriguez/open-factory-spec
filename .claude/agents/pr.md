@@ -6,7 +6,7 @@ effort: low
 maxTurns: 5
 permissionMode: default
 memory: project
-color: red
+color: orange
 tools: Read, Bash(gh *), Bash(git push *), Bash(git branch *), Bash(git status *)
 ---
 

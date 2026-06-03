@@ -6,7 +6,7 @@ effort: high
 maxTurns: 30
 permissionMode: default
 memory: project
-color: red
+color: orange
 tools: Read, Bash(git *), Bash(gh pr view *), Bash(gh pr diff *), Skill(verify-contract)
 ---
 

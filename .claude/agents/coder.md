@@ -6,7 +6,7 @@ effort: medium
 maxTurns: 50
 permissionMode: acceptEdits
 memory: project
-color: green
+color: orange
 tools: Read, Edit, Write, Grep, Glob, Bash
 ---
 

@@ -147,7 +147,7 @@ Método `validate()` chequea que los tres campos estén presentes y bien formado
 Mapea 1:1 a un archivo `.claude/agents/<name>.md`. Campos adicionales sobre `POAObject`:
 
 - `model` — `sonnet` / `haiku` / `opus` / `inherit`.
-- `color` — uno de `red`/`blue`/`green`/`yellow`/`purple`/`orange`/`pink`/`cyan`. Por convención mapea a la fase del agente (ver Workflow §3).
+- `color` — uno de `red`/`blue`/`green`/`yellow`/`purple`/`orange`/`pink`/`cyan`. En esta factory todos los agentes usan `orange` (ver Workflow §2.1); la capa identifica el rol, no el color.
 - `permissionMode` — `default`/`acceptEdits`/`auto`/`dontAsk`/`bypassPermissions`/`plan`.
 - `memory` — `user`/`project`/`local`/`none`.
 - Composición de `skills`, `commands`, `mcps`, `hooks`.

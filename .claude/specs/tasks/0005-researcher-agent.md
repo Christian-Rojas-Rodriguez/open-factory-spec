@@ -53,7 +53,7 @@ effort: medium
 maxTurns: 20
 permissionMode: plan
 memory: project
-color: cyan
+color: orange
 tools: Read, Grep, Glob, WebFetch
 ---
 ```
@@ -67,7 +67,7 @@ tools: Read, Grep, Glob, WebFetch
 | `maxTurns` | `20` | Caps agentic exploration. Most research tasks resolve in <10 turns; 20 leaves headroom. |
 | `permissionMode` | `plan` | Read-only enforcement at the Claude Code permission layer. |
 | `memory` | `project` | Insights about THIS project's codebase persist across sessions and travel with the repo. |
-| `color` | `cyan` | Per workflow.md §2.1, transversal agents are cyan. |
+| `color` | `orange` | Per workflow.md §2.1, all agents use orange. |
 | `tools` | `Read, Grep, Glob, WebFetch` | Minimal allowlist for read-only research. No `Edit`/`Write`/`Bash`. |
 
 ### Body (system prompt) contract
@@ -85,7 +85,7 @@ The markdown body MUST:
 1. File `.claude/agents/researcher.md` exists and parses as valid YAML frontmatter + markdown body.
 2. `description` field contains the substring `"Use proactively when"` AND at least one of: `"research"`, `"investigate"`, `"analyze"`, `"explore"`. (Required for prompt-matching per SPEC §5.)
 3. `tools` is exactly the allowlist `Read, Grep, Glob, WebFetch` — no extras, no missing.
-4. `model` is `haiku`, `effort` is `medium`, `permissionMode` is `plan`, `memory` is `project`, `color` is `cyan`, `maxTurns` is `20`.
+4. `model` is `haiku`, `effort` is `medium`, `permissionMode` is `plan`, `memory` is `project`, `color` is `orange`, `maxTurns` is `20`.
 5. The markdown body (after frontmatter) is non-empty and contains the literal headings `## Findings`, `## Open questions`, `## Recommended next agent`.
 6. The body contains the word `MEMORY.md` (forces the memory contract to be in the system prompt).
 7. The body does not contain any of: `Edit`, `Write`, `Bash`, `npm`, `pnpm` — the agent should never reference write tools or package managers.

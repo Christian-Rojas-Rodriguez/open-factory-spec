@@ -21,21 +21,20 @@ const VALID_COLORS = new Set([
   "cyan",
 ]);
 
-// Per-layer palette declared in .claude/specs/workflow.md §2.1. Pinning these
-// prevents regressions like "set every agent to red", which silently erases the
-// layer-color convention the docs promise.
+// Per .claude/specs/workflow.md §2.1, every agent uses orange. Pinning each one
+// prevents accidental drift back to mixed per-agent colors.
 const EXPECTED_COLOR = {
-  researcher: "cyan",
-  architect: "red",
+  researcher: "orange",
+  architect: "orange",
   planner: "orange",
-  curator: "blue",
-  specter: "blue",
-  qa: "purple",
-  coder: "green",
-  reviewer: "green",
-  tester: "red",
-  pr: "red",
-  auditor: "red",
+  curator: "orange",
+  specter: "orange",
+  qa: "orange",
+  coder: "orange",
+  reviewer: "orange",
+  tester: "orange",
+  pr: "orange",
+  auditor: "orange",
 };
 
 const files = (await readdir(agentsDir)).filter((f) => f.endsWith(".md"));

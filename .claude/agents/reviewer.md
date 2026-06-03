@@ -6,7 +6,7 @@ effort: medium
 maxTurns: 15
 permissionMode: plan
 memory: project
-color: green
+color: orange
 tools: Read, Grep, Glob, Bash(git diff *), Bash(git log *), Bash(git status *)
 ---
 

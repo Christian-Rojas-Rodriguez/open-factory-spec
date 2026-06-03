@@ -86,7 +86,7 @@ Bootstrap produce tres artefactos que se commitean juntos: `prd.md`, `rfc.md`, `
 
 ## 4. Catálogo de agentes base
 
-Layout por capa y color. Para cada agent, su Task de creación está en [`workflow.md`](./workflow.md) §3.
+Layout por capa. Todos los agentes usan el color `orange`; la capa (no el color) identifica el rol. Para cada agent, su Task de creación está en [`workflow.md`](./workflow.md) §3.
 
 ### 4.1 Bootstrap
 
@@ -109,7 +109,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 | `propose-agents` | 0009 | Catálogo de agents/skills/hooks/commands con modelo/esfuerzo/permisos; invocado desde `draft-rfc` para §8. |
 | `research-topic` | 0010 | Survey de dominio + stack; invocado desde `researcher` y por `planner` antes del PRD interview. |
 
-### 4.2 Specify (`blue`)
+### 4.2 Specify
 
 #### `curator`
 
@@ -126,7 +126,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 - **permissionMode**: `acceptEdits` solo para `specs/`.
 - **description**: `Use proactively when the user asks to write, materialize, or save a spec to disk. Specify-layer agent.`
 
-### 4.3 Plan (`purple`)
+### 4.3 Plan
 
 #### `qa`
 
@@ -135,7 +135,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 - **permissionMode**: `acceptEdits` para `tests/`.
 - **description**: `Use proactively when the user asks to validate a spec or write tests from a spec. Generates unit, integration, and acceptance tests as failing-first contracts. Plan-layer agent.`
 
-### 4.4 Implement (`green`)
+### 4.4 Implement
 
 #### `coder`
 
@@ -152,7 +152,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 - **permissionMode**: `plan` (read-only).
 - **description**: `Use proactively when the user asks for code review, to check a diff against the spec, or to inspect recent changes. Implement-layer agent.`
 
-### 4.5 Validate (`red`)
+### 4.5 Validate
 
 #### `tester`
 
@@ -175,7 +175,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 
 ### 4.6 Transversales
 
-#### `researcher` — `cyan`
+#### `researcher` — `orange`
 
 - **objective**: investigación de contexto de dominio/stack/código existente.
 - **tools**: `Read`, `Grep`, `Glob`, `WebFetch`.
@@ -183,7 +183,7 @@ Layout por capa y color. Para cada agent, su Task de creación está en [`workfl
 - **memory**: `project`.
 - **description**: `Use proactively when the user asks to research, investigate, or analyze a domain, codebase, or stack before planning or speccing. Transversal agent.`
 
-#### `architect` — `red`
+#### `architect` — `orange`
 
 - **objective**: orquestar agentes para correr los UCs; decisiones no críticas.
 - **tools**: `Agent(*)`, `Read`.

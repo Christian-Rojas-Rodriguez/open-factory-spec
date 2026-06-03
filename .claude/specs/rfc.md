@@ -60,14 +60,16 @@ Cinco primitivas, cada una con `name`, `permissions` (mínimas) y `objective`:
 
 ### Capas y colores
 
+> Todos los agentes usan el color `orange`. La capa es la fuente de verdad del rol; el color ya no la codifica.
+
 | Capa | Color | Agents |
 |---|---|---|
 | Bootstrap | orange | planner |
-| Specify | blue | curator, specter |
-| Plan | purple | qa |
-| Implement | green | coder, reviewer |
-| Validate | red | tester, pr, auditor |
-| Transversales | cyan / red | researcher, architect |
+| Specify | orange | curator, specter |
+| Plan | orange | qa |
+| Implement | orange | coder, reviewer |
+| Validate | orange | tester, pr, auditor |
+| Transversales | orange | researcher, architect |
 
 ### Distribución
 
@@ -102,24 +104,24 @@ Estrategia de granularidad elegida: `1 Task = 1 componente POA`
 | 0002 | pre-spec-validate | Hook que bloquea specs sin What/Why/How |
 | 0003 | pre-commit-contract | Hook git que bloquea commits fuera de scope |
 | 0004 | post-merge-bump | Hook git que bumpea `Spec.version` al merge |
-| 0005 | researcher-agent | Agent `researcher` (cyan, plan-only) |
-| 0006 | architect-agent | Agent `architect` (red, orquestador) |
+| 0005 | researcher-agent | Agent `researcher` (orange, plan-only) |
+| 0006 | architect-agent | Agent `architect` (orange, orquestador) |
 | 0007 | planner-agent | Agent `planner` (orange, Bootstrap) |
 | 0008 | plan-workflow-skill | Skill `plan-workflow` (deriva workflow.md desde RFC) |
 | 0009 | propose-agents-skill | Skill `propose-agents` (catálogo POA para RFC §8) |
 | 0010 | research-topic-skill | Skill `research-topic` |
-| 0011 | curator-agent | Agent `curator` (blue, Specify) |
+| 0011 | curator-agent | Agent `curator` (orange, Specify) |
 | 0012 | polish-idea-skill | Skill `polish-idea` |
-| 0013 | specter-agent | Agent `specter` (blue, materializa specs) |
+| 0013 | specter-agent | Agent `specter` (orange, materializa specs) |
 | 0014 | write-spec-skill | Skill `write-spec` |
-| 0015 | qa-agent | Agent `qa` (purple, Plan) |
+| 0015 | qa-agent | Agent `qa` (orange, Plan) |
 | 0016 | spec-lint-skill | Skill `spec-lint` |
 | 0017 | author-tests-skill | Skill `author-tests` |
-| 0018 | coder-agent | Agent `coder` (green, Implement) |
-| 0019 | reviewer-agent | Agent `reviewer` (green, Implement) |
-| 0020 | tester-agent | Agent `tester` (red, Validate) |
-| 0021 | pr-agent | Agent `pr` (red, Validate) |
-| 0022 | auditor-agent | Agent `auditor` (red, Validate) |
+| 0018 | coder-agent | Agent `coder` (orange, Implement) |
+| 0019 | reviewer-agent | Agent `reviewer` (orange, Implement) |
+| 0020 | tester-agent | Agent `tester` (orange, Validate) |
+| 0021 | pr-agent | Agent `pr` (orange, Validate) |
+| 0022 | auditor-agent | Agent `auditor` (orange, Validate) |
 | 0023 | verify-contract-skill | Skill `verify-contract` |
 | 0024 | factory-init-command | Command `/factory-init` (UC-1) |
 | 0025 | workflow-review-command | Command `/workflow-review` |
@@ -138,17 +140,17 @@ Estrategia de granularidad elegida: `1 Task = 1 componente POA`
 
 | # | Agent | Capa | Color | Task |
 |---|---|---|---|---|
-| 1 | `researcher` | Transversal | `cyan` | 0005 |
-| 2 | `architect` | Cross-cutting | `red` | 0006 |
+| 1 | `researcher` | Transversal | `orange` | 0005 |
+| 2 | `architect` | Cross-cutting | `orange` | 0006 |
 | 3 | `planner` | Bootstrap | `orange` | 0007 |
-| 4 | `curator` | Specify | `blue` | 0011 |
-| 5 | `specter` | Specify | `blue` | 0013 |
-| 6 | `qa` | Plan | `purple` | 0015 |
-| 7 | `coder` | Implement | `green` | 0018 |
-| 8 | `reviewer` | Implement | `green` | 0019 |
-| 9 | `tester` | Validate | `red` | 0020 |
-| 10 | `pr` | Validate | `red` | 0021 |
-| 11 | `auditor` | Validate | `red` | 0022 |
+| 4 | `curator` | Specify | `orange` | 0011 |
+| 5 | `specter` | Specify | `orange` | 0013 |
+| 6 | `qa` | Plan | `orange` | 0015 |
+| 7 | `coder` | Implement | `orange` | 0018 |
+| 8 | `reviewer` | Implement | `orange` | 0019 |
+| 9 | `tester` | Validate | `orange` | 0020 |
+| 10 | `pr` | Validate | `orange` | 0021 |
+| 11 | `auditor` | Validate | `orange` | 0022 |
 
 ### Skills
 

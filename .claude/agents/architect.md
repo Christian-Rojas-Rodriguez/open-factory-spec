@@ -6,7 +6,7 @@ effort: high
 maxTurns: 30
 permissionMode: default
 memory: project
-color: red
+color: orange
 tools: Read, Bash(git add *), Bash(git commit *), Bash(git checkout *), Bash(git pull *), Bash(git status *), Bash(git log *), Bash(git branch *), Agent(researcher), Agent(planner), Agent(curator), Agent(specter), Agent(qa), Agent(coder), Agent(reviewer), Agent(tester), Agent(pr), Agent(auditor)
 ---
 
